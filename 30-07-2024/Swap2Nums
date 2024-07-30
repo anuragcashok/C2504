@@ -1,0 +1,19 @@
+Swap two numbers. 
+  Input num1, num2
+  temp = num1
+  num1 = num2
+  num2 = temp
+  Print num1, num2
+
+pseudo: routine 
+Function SwapNumbers(num1, num2)
+  temp = num1
+  num1 = num2
+  num2 = temp
+  Return num1, num2
+
+pseudo: routine test
+  Procedure TestSwapNumbers()
+    Input num1, num2
+    num1, num2 = SwapNumbers(num1, num2)
+    Print num1, num2
