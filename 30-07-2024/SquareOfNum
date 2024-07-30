@@ -1,0 +1,15 @@
+To find square of the number.
+  Input num
+  square=num*num
+  print square
+
+Pseudo: Routine
+Function FindSquare(num)
+  square=num*num
+  return square
+
+Pseudo:Routine Test
+Function TestFindSquare()
+  input num
+  square=FindSquare(num)
+  print square
