@@ -1,0 +1,16 @@
+To find cube of number.
+  Input num
+  cube=num*num*num
+  print cube
+
+Pseudo: Routine
+Function FindCube(num)
+  input num
+  cube=FindCube(num)
+  return cube
+
+Pseudo:routine test
+Function TestFindCube()
+  int num
+  cube=FindCube(num)
+  print cube
