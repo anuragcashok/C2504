@@ -1,0 +1,11 @@
+To print N natural numbers.
+
+pseudo: routine 
+  Function PrintNNaturalNumbers(n)
+    for i from 1 to n
+      print i
+
+pseudo: routine test
+Function TestPrintNNaturalNumbers()
+  input n
+  PrintNNaturalNumbers(n) 
