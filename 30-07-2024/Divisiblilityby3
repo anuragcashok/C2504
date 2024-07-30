@@ -1,0 +1,21 @@
+Check nubmer is divisible by 3
+  Input num
+  if num%3==0
+    Print "Divisible by 3"
+  else
+    Print "Not Divisible by 3"
+
+Pseudo:Routine
+Function IsDivisibleBy3(num)
+  if num%3==0
+    return True
+  else
+    return False
+
+Function:Routine Test
+Function TestIsDivivsibleBy3()
+  input num
+  if IsDivisibleBy3(num)
+    print "Divisible by 3"
+  else
+    print "Not Divisible by 3"
