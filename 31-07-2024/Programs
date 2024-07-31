@@ -1,0 +1,261 @@
+simple if : 
+1. To print the one is adust based his/her age
+  function IsAdult(age) -> boolean 
+        isAdult = (age >= 18);
+        return isAdult; 
+
+    function TestIsAdult(): -> None
+        Input age 
+        if(IsAdult(age)) 
+            print 'You are an adult.'
+        end if
+        
+2. Take a num 10, if num greater than 5
+   print "num as 'greater than 5'"
+   function IsGreater5(num)
+       isGreater = (num > 5);
+       return isGreater;
+
+   function TestIsGreater5()
+       Input num
+       if(IsGreater5(num))
+           print 'Num greater than 5'
+
+3. To print 'number is positive' if num > 0
+       it should not print if not positive 
+    function IsPositive(num)
+        isPositive = (num > 0);
+        return isPositive
+
+    function TestIsPositive()
+        Input num
+        if(IsPositive(num))
+            print 'Number is positive'
+
+If else 
+
+5. To print the is adult or not based his/her age. 
+function TestIsAdultNotAdult():
+        Input age 
+        if(IsAdult(age)) 
+            print 'You are an adult.'
+        else 
+            print 'You are not an adult.'
+        end if
+
+6. Input mark, if IsMarkGreaterThan40(mark) 
+    print pass else fail  
+
+  function IsMarkGreaterThan40(mark):
+    isMarkGreaterThan40 = (mark > 40)
+    return isMarkGreaterThan40
+
+  function TestIsMarkGreaterThan40(): 
+    Input mark 
+    if IsMarkGreaterThan40(mark)
+        print "pass" 
+    else 
+        print "fail" 
+7. Input number, check it is positive or negative 
+        function IsPositiveOrNegative(num)
+        isPositiveOrNegative = (num > 0);
+        return isPositiveOrNegative
+
+    function IsPositiveOrNegative()
+        Input num
+        if(IsPositiveOrNegative(num))
+            print 'Number is positive'
+        else 
+            print 'Number is negative'
+            
+9. Check tumour 
+                is cancerous if  malignant 
+                or not cancerous if benign
+function IsCancerous(tumour->string):
+    isCancerous = (tumour == "malignant")
+        return isCancerous
+  
+10.else.if
+    To check the person adult, teenager or child 
+    for given age 
+    function IsAdult(age) 
+        isAdult = (age >= 18);
+        return isAdult; 
+    function IsTeenager(age)
+        isTeenager = (age >= 13);
+        return isTeenager; 
+    function TestIsAdultTeenagerOrChild():
+        Input age 
+        if(IsAdult(age)) 
+            print 'You are an adult.'
+        else if(IsTeenager(age)) 
+            print 'You are a teenager.'
+        else
+            print 'You are a child.'
+        end if
+        
+15. check for car maintenance
+    cases :
+        'O' = Oil Change, "Change Oil and Replace Oil Filter"
+        'T' = Tire Rotaion, "Rotate Tire and align them properly"
+        'B' = Brake, "Inspect the brake and replace them if necessary" 
+        'A' = Battery,         "Battery Check and Replace them"
+        Default: "Some other reason" 
+    function SuggestMaintenance(serviceOption->char) -> string
+        string suggestion;
+        switch serviceOption
+            case 'O':
+                suggestion = "Change Oil and Replace Oil Filter"
+                break
+            case 'T':
+                suggestion = "Rotate Tire and align them properly"
+                break
+            case 'B':
+                suggestion = "Inspect the brake and replace them if necessary"
+                break
+            case 'A':
+                suggestion = "Battery Check and Replace them"
+                break
+            default: 
+                suggestion = "Some other reason"
+                break 
+        end switch 
+        return suggestion
+    function TestSuggestMaintenance() -> None       marks: 100
+        Input serviceOption 
+        suggestion = SuggestMaintenance(serviceOption)
+        print suggestion        
+    
+^^^^^^^^^^^^^^^^ Lab ^^^^^^^^^^^^^^^^ 
+
+ 1.find total cost after discount
+
+int cart - array
+int limit_amt
+int discount
+double cost = 0.0
+
+for each item in cart
+	cost = cost + item_price 
+ 
+double disc = cost * (discount/100)
+
+if cost > limit_amount
+	cost = cost - disc
+end if
+
+print cost
+
+2. Simple Calculator
+
+double num1
+double num2
+char opr ( '+', '-', '*', '/')
+double result = 0 
+
+if opr == '+' 
+    result = num + num2
+else if opr == '-'
+    result = num - num2
+else if opr == '*'
+    result = num * num2
+else if opr == '/'
+    result = num / num2
+else
+    print "  Invalid operator"
+
+print result
+    
+end
+
+3. fizzbuzz
+
+int num = 1
+for num 1 to 100
+	if (num % 3 == 0) && if (num % 5 == 0)
+		print "FizzBuzz"
+	else if (num % 5 == 0)
+		print "Buzz"
+	else if (num % 3 == 0)
+		print "Fizz"
+	else
+		print "Other"
+end 
+
+4. Maximum value in an array
+
+int arr[]
+int i
+int max
+
+for i in arr
+	max = arr[i]
+	if arr[i+1] > max
+		max=arr[i+1]
+
+print max
+
+5. Palindrome String
+
+input string1
+flag = 0
+
+start = 0
+end = len(string1) - 1
+
+while start < end
+	if string1[start] != string1[end] then
+		flag =  1
+	break
+	start+ = 1
+	end- = 1
+end while
+
+if flag == 1
+	print "Not palindrome"
+else 
+	print "Palindrome"
+
+6. Simple bank account (Deposit, Withdraw, Checkbalance)
+
+double bal = 0
+double amt
+
+fn deposit(amt)
+	bal = bal + amt
+	print "Balance" bal
+
+fn withdraw(amt)
+	if amt > bal
+		print "Insuffient balance"
+	else
+		bal = bal - amt
+		print "Balance" bal
+
+driver :
+	int choice
+	print "1.Deposit, 2.Withdraw, 3.Check balance"
+	switch(choice)
+		case 1 : input amt
+			 deposit(amt)
+			 break
+		case 2 : input amt
+			 withdraw(amt)
+			 break
+		case 3 : print bal
+			 break
+		default : print "Wrong choice"
+	end switch
+
+7.  First 10 even numbers
+
+BEGIN
+	DECLARE count, num as INT
+	SET count = 0, num =2
+	
+	WHILE count < 10
+		PRINT num
+		count = count + 1
+		num = num + 2
+	END WHILE
+END
