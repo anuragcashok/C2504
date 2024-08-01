@@ -1,0 +1,44 @@
+using System;
+
+class IsDoctorSalaryMin6Digits
+{
+    static bool IsDoctorSalaryMin6Digit(int doctorSalary)                         // Qstn 1
+    { 
+        return doctorSalary > 100000;
+    }
+
+    static int CountMin6DigitsSalariedDoctors(int[] salary, int size)             // Qstn 4
+    {
+        int count = 0;
+        for (int i = 0; i < size; i++)
+        {
+            if (IsDoctorSalaryMin6Digit(salary[i]))
+            {
+                count += 1;
+            }
+        }
+        return count;
+    }
+    static void TestCountMin6DigitsSalariedDoctors()                                   // Qstn 5
+    {
+        Console.Write("Enter number of doctors : ");
+        int size = int.Parse(Console.ReadLine());
+        int[] salary = new int[size];
+        Console.WriteLine("Enter Salaries :- ");
+        for (int i = 0;i < size; i++)
+        {
+            Console.Write($"Salary for Doctor {i+1}: ");
+            salary[i] = int.Parse(Console.ReadLine());
+        }
+        int count = CountMin6DigitsSalariedDoctors(salary, size);
+        Console.WriteLine($"Number of doctors with min 6 digit salary : {count}");
+    }
+
+    static void Main(string[] args) 
+     {
+        Console.WriteLine("--------------------TestCountMin6DigitsSalariedDoctors--------------------");
+        TestCountMin6DigitsSalariedDoctors(); 
+        Console.WriteLine("--------------------End of TestCountMin6DigitsSalariedDoctors--------------------");
+     }
+}
+
