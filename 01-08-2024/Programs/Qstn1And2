@@ -1,0 +1,37 @@
+using System;
+
+class IsDoctorSalaryMin6Digits
+{
+    static bool IsDoctorSalaryMin6Digit(int doctorSalary)                         // Qstn 1
+    {
+        //int salary = doctorSalary;
+        //int count = 0;
+        //while (salary > 0)
+        //{
+        //    int digit = salary % 10;
+        //    count += 1;
+        //    salary = salary / 10;
+        //}
+        //return count >= 6;
+
+        return doctorSalary > 100000;
+    }
+
+    static void TestIsDoctorSalaryMin6Digits()                                   // Qstn 2
+    {
+        Console.Write("Enter doctor's salary : "); 
+        int doctorSalary = int.Parse(Console.ReadLine());
+        if(IsDoctorSalaryMin6Digit(doctorSalary))
+        {
+            Console.WriteLine("Doctor salary is minimum 6 digits");
+        }
+    }
+
+     static void Main(string[] args) 
+     {
+        Console.WriteLine("--------------------TestIsDoctorSalaryMin6Digits--------------------");
+        TestIsDoctorSalaryMin6Digits(); 
+        Console.WriteLine("--------------------End of TestIsDoctorSalaryMin6Digits--------------------");
+     }
+}
+
