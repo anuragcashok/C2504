@@ -1,0 +1,37 @@
+for loop
+
+using System;
+namespace Psrograms
+{
+    internal class Program
+    {
+        static void PrintTriangle(int N)
+        {
+            for (int I = 1; I <= N; I++)
+            {
+                for (int J = 1; J <= N - I; J++)
+                {
+                    Console.Write("  ");
+                }
+                for (int k = N; k >N- I; k--)
+                {
+                    Console.Write($"{k} ");
+                }
+                Console.WriteLine();
+            }
+        }
+        static void TestPrintTriangle()
+        {
+            Console.Write("Enter number of lines:");
+            int N = int.Parse(Console.ReadLine());
+            PrintTriangle(N);
+        }
+        static void Main(string[] args)
+        {
+            Console.WriteLine("-----TestPrintTriangle-----");
+            TestPrintTriangle();
+            Console.WriteLine("-----End TestPrintTriangle-----");
+            Console.ReadKey();
+        }
+    }
+}
