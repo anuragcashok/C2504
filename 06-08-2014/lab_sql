@@ -1,0 +1,63 @@
+create database sample_db;
+use sample_db;
+if not exists (select * from sys.tables where [name] = 'student')
+begin
+	create table student(
+		Id int primary key,
+		FirstName nvarchar(30) not null,
+		LastName nvarchar(30),
+		Email varchar(30) not null unique,
+	)
+end
+
+insert into student (Id, FirstName,LastName, email)
+values
+(1,'John','hhh','john@gmail.com'),
+(2,'Ab','kkk','john@gmail.com'),
+(3,'Bc','lll','john@gmail.com');
+
+if object_id ('dbo.subjects') is null
+begin
+	create table subjects(
+		id int primary key identity,
+		[name] nvarchar(100) not null unique,
+		sub nvarchar(30)
+	)
+end
+
+
+insert into subjects(name,sub)
+values
+('John','Maths'),
+('Ab','Chem'),
+('Cd','Phy');
+
+
+if object_id ('dbo.mark') is null
+begin
+	create table mark(
+		id int primary key identity,
+		student_id int not null,
+		subject_id int not null,
+		mark int not null,
+		constraint fk_student foreign key (student_id) references student(id),
+		constraint fk_subject foreign key (subject_id) references subject(id)
+	);
+end
+
+
+select student.Id, student.FirstName, student.LastName, mark.mark, mark.subject_id from student
+inner join mark
+on student_id = mark.student_id;
+
+select
+	student.Id as student_id,
+	student.FirstName,
+	student.LastName,
+	mark.id AS mark_id,
+	mark.mark,
+	mark.subject_id,
+	subject.name
+from student
+inner join mark on student.Id = mark.student_id
+inner join subject on mark.subject_id = subject.id;
