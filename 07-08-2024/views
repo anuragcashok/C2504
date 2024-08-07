@@ -1,0 +1,25 @@
+------------------ Views --------------------
+
+-- Details from EMPtable
+SELECT * FROM EMP;
+
+-- Details from DEPT table
+SELECT * FROM DEPT;
+
+
+-- Creating a view 'EMP_DEPT'
+
+CREATE VIEW EMP_DEPT 
+AS 
+SELECT EMP.*, DEPT.DNAME, DEPT.LOC  
+FROM EMP INNER JOIN DEPT ON (EMP.DEPTNO = DEPT.DEPTNO);
+
+-- Display all EMP cols and DEPT cols using view 'EMP_DEPT'
+SELECT * FROM EMP_DEPT;
+ 
+-- Display ENAME, DNAME
+SELECT ENAME, DNAME FROM EMP_DEPT;
+
+-- Dropping a view
+
+DROP VIEW IF EXISTS EMP_DEPT;
