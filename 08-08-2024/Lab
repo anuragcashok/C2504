@@ -1,0 +1,31 @@
+--------------- HTML5 -------------------
+
+<!DOCTYPE html>
+<head>
+    <title>My web page</title>
+    <style>
+        code{
+            background-color: beige;
+            border-radius: 12%;
+
+        }
+    </style>
+</head>
+<body>
+    <p>Heading</p>
+    <h1>Hello</h1>
+    <h2>Hello</h2>
+    <h3>Hello</h3>
+    <h4>Hello</h4>
+    <h5>Hello</h5>
+    <h6>Hello</h6>
+    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque saepe beatae ex ipsa facere, veritatis voluptatem iusto officia eligendi minima repellat, incidunt quia, voluptatibus eius? Voluptas delectus ea eos corrupti.</p>
+    <p>Use <code>Console.WriteLine</code> for coding</p>
+    <pre>
+        lkj
+            lkhg
+        jmk
+    erp
+    </pre>
+</body>
+</html>
