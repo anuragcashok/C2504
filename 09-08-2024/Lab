@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<head>
+    <title>Time table</title>
+    
+    <table border="1">
+        <thead>
+            <tr>
+                <th colspan ="4">Timetable</th>
+            </tr>
+            <tr>
+                <th>Days</th>
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>Mon</th>
+                <td>C</td>
+                <td>HTML</td>
+                <td>C#</td>
+            </tr>
+            <tr>
+                <th>Tue</th>
+                <td>HTML</td>
+                <td>C</td>
+                <td>C#</td>
+            </tr>
+            <tr>
+                <th>Wed</th>
+                <td>C#</td>
+                <td>C</td>
+                <td>HTML</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="2" >Total days: </th>
+                <td colspan="2" >3</td>
+            </tr>
+        </tfoot>
+    </table>
+</body>
+</html>
