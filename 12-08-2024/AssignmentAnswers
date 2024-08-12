@@ -1,0 +1,446 @@
+1 - Doctor's salary (Using arrays)
+-------------------------------------------------------------------------------
+class YahkoopV2
+{
+    static void ReadDoctorSalaryTillMinus1()
+    {
+        int count = 0;
+        int countOdd = 0;
+        int sum = 0;
+        int avg = 0;
+        int primeCount = 0;
+        int minFourDigitsCount = 0;
+        int max = int.MinValue;
+        int oddSum = 0;
+        bool isMaxPrime = false;
+        int minOdd = int.MaxValue, secondMinOdd = int.MaxValue;
+
+        int i;
+        Console.Write("Enter number of doctors : ");
+        int N = int.Parse(Console.ReadLine()); //number of salaries
+        int[] salary = new int[N];
+        for (i = 0; i < N; i++)
+        {
+            Console.Write($"Enter salary[i] of doctor {i + 1} : ");
+            salary[i] = int.Parse(Console.ReadLine());
+
+            if (salary[i] == -1) //to stop input cond
+            {
+                break;
+            }
+            if (salary[i] < 0) //validation
+            {
+                Console.WriteLine("invalid salary[i]");
+                continue;
+            }
+
+            count++;
+            if (IsOdd(salary[i])) // check for odd number salaries
+            {
+                countOdd++;
+                oddSum += salary[i];
+
+                if (salary[i] < minOdd)// check for minimum salary[i]
+                {
+                    if (minOdd != int.MaxValue)
+                    {
+                        secondMinOdd = minOdd;
+                    }
+                    minOdd = salary[i];
+                }
+                else if (salary[i] < secondMinOdd && salary[i] != minOdd)
+                {
+                    secondMinOdd = salary[i];
+                }
+            }
+            sum = sum + salary[i];
+            if (IsPrime(salary[i])) // check for prime salaries
+            {
+                primeCount++;
+            }
+
+            if (IsMinimumFourDigits(salary[i])) // check for 4 digits salaries
+            {
+                minFourDigitsCount++;
+            }
+
+            if (salary[i] > max)// check for maximum salary[i] //[Keerthana]
+            {
+                max = salary[i];
+            }
+        }
+
+
+        isMaxPrime = IsPrime(max);
+
+
+        avg = sum / count; // to find average
+        Console.WriteLine($"Average Salary: {avg}");
+        Console.WriteLine($"Prime Salaries#: {primeCount}");
+        Console.WriteLine($"Min Four Digits Salaries#: {minFourDigitsCount}");
+        Console.WriteLine($"Max Salary#: {max}");
+        Console.WriteLine($"Odd Salaries Sum#: {oddSum}");
+        Console.WriteLine($"Min Odd Salary#: {minOdd}");
+        if (secondMinOdd == int.MaxValue)
+        {
+            Console.WriteLine("Second Min Odd Salary does not exist");
+        }
+        else
+        {
+            Console.WriteLine($"Second Min Odd Salary#: {secondMinOdd}");
+        }
+
+        if (isMaxPrime) // check if maximum salary[i] is prime
+        {
+            Console.WriteLine("Maximum salary[i] is also prime ");
+        }
+        else
+        {
+            Console.WriteLine("Maximum salary[i] is not prime ");
+        }
+    }
+
+
+    /* 
+        static bool IsPrime(int salary[i])
+    {
+        bool isPrime = true;
+        int halfSal = salary[i] / 2;
+        //int sqrtSal = (int)Math.Sqrt((double)salary[i]);
+        for (int i = 2; i < halfSal; i++) {
+                if (salary[i] % i == 0) {
+                isPrime = false;
+                break;
+                }
+        }
+        return isPrime;
+    } */
+    static bool IsPrime(int salary)
+    {
+        bool isPrime = true;
+        int sqrtSal = (int)Math.Sqrt((double)salary);
+        for (int i = 2; i <= sqrtSal; i++)
+        {
+            if (salary % i == 0)
+            {
+                isPrime = false;
+                break;
+            }
+        }
+        return isPrime;
+    }
+    static bool IsMinimumFourDigits(int salary)
+    {
+        return salary >= 1000;
+    }
+
+    static bool IsOdd(int salary)
+    {
+        return salary % 2 != 0;
+    }
+
+
+    static void TestReadDoctorSalaryTillMinus1()
+    {
+        ReadDoctorSalaryTillMinus1();
+    }
+
+    static void Main(string[] args)
+    {
+        Console.WriteLine("-----TestReadDoctorSalaryTillMinus1-----");
+        TestReadDoctorSalaryTillMinus1();
+        Console.WriteLine("-----End TestReadDoctorSalaryTillMinus1-----");
+        Console.WriteLine("Press any key to contine...");
+        Console.ReadKey();
+    }
+}
+
+-------------------------------------------------------------------------------
+2 - Patient's age (Using arrays)
+-------------------------------------------------------------------------------
+
+    class Minnu
+{
+    static void ReadPatientAge()
+    {
+        int count = 0;
+        int countOdd = 0;
+        int sum = 0;
+        int avg = 0;
+        int primeSum = 0;
+        int teenagerSum = 0;
+        int min = int.MaxValue;
+        int oddSum = 0;
+        bool isMinPrime = false;
+        int maxAdult = int.MinValue, secondMaxAdult = int.MinValue;
+
+
+        int i;
+        Console.Write("Enter number of patients : ");
+        int N = int.Parse(Console.ReadLine()); //number of patients
+        int[] age = new int[N];
+        for (i = 0; i < N; i++)
+        {
+
+
+            age[i] = int.Parse(Console.ReadLine());
+
+            if (age[i] < 0) //validation
+            {
+                Console.WriteLine("invalid age");
+                continue;
+            }
+
+            count++;
+            if (IsOdd(age[i])) // check for odd number ages
+            {
+                countOdd++;
+                oddSum += age[i];
+            }
+            if (IsAdult(age[i])) // check for adult age
+            {
+                if (age[i] > maxAdult)// check for max adult age
+                {
+                    if (maxAdult != int.MaxValue)
+                    {
+                        secondMaxAdult = maxAdult;
+                    }
+                    maxAdult = age[i];
+                }
+                else if (age[i] > secondMaxAdult && age[i] != maxAdult)
+                {
+                    secondMaxAdult = age[i];
+                }
+            }
+            sum = sum + age[i];
+            if (IsPrime(age[i])) // check for prime ages
+            {
+                primeSum += age[i];
+            }
+
+            if (IsTeenager(age[i])) // check for teenager
+            {
+                teenagerSum += age[i];
+            }
+
+            if (age[i] < min)// check for min age
+            {
+                min = age[i];
+            }
+        } 
+
+
+        isMinPrime = IsPrime(min);
+
+
+        avg = sum / count; // to find average
+        Console.WriteLine($"Average Age: {avg}");
+        Console.WriteLine($"Prime Ages sum: {primeSum}"); //Anjana NK
+        Console.WriteLine($"Teenagers' Age Sum: {teenagerSum}");
+        Console.WriteLine($"Min Age#: {min}");
+        Console.WriteLine($"Odd Age Sum#: {oddSum}");
+        if (secondMaxAdult == int.MaxValue)
+        {
+            Console.WriteLine("Second Max Adult Age does not exist");
+        }
+        else
+        {
+            Console.WriteLine($"Second Max Adult Age#: {secondMaxAdult}");
+        }
+
+        if (isMinPrime) // check if Minimum age is prime
+        {
+            Console.WriteLine("Minimum age is also prime");
+        }
+        else
+        {
+            Console.WriteLine("Minimum age is not prime");
+        }
+    }
+
+    static bool IsPrime(int age)
+    {
+        bool isPrime = true;
+        int sqrtAge = (int)Math.Sqrt((double)age);
+        for (int i = 2; i <= sqrtAge; i++)
+        {
+            if (age % i == 0)
+            {
+                isPrime = false;
+                break;
+            }
+        }
+        return isPrime;
+    }
+    static bool IsTeenager(int age)
+    {
+        return ((age >= 13) && (age <= 19));
+    }
+    static bool IsAdult(int age)
+    {
+        return (age > 19);
+    }
+
+    static bool IsOdd(int age)
+    {
+        return age % 2 != 0;
+    }
+
+
+    static void TestReadPatientAge()
+    {
+        ReadPatientAge();
+    }
+
+    static void Main(string[] args)
+    {
+        Console.WriteLine("-----TestReadPatientAge-----");
+        TestReadPatientAge();
+        Console.WriteLine("-----End TestReadPatientAge-----");
+        Console.ReadKey();
+    }
+
+
+}
+
+-------------------------------------------------------------------------------
+3 - Patient's temperature (Using arrays)
+-------------------------------------------------------------------------------
+
+class Anurag
+{
+    static void ReadPatientTemperature()
+    {
+        int count = 0;
+        int countOdd = 0;
+        int sum = 0;
+        int avg = 0;
+        int primeSum = 0;
+        int min3DigitsTemperaturerSum = 0;
+        int min = int.MaxValue;
+        int oddSum = 0;
+        bool isMinPrime = false;
+        int maxOdd = int.MinValue, secondMaxOdd = int.MinValue;
+
+
+        int i;
+        Console.Write("Enter number of patients : ");
+        int N = int.Parse(Console.ReadLine()); //number of patients
+        int[] temperature = new int[N];
+        for (i = 0; i < N; i++)
+        {
+
+            temperature[i] = int.Parse(Console.ReadLine());
+
+            if (temperature[i] < 0) //validation
+            {
+                Console.WriteLine("invalid temperature");
+                continue;
+            }
+
+            count++;
+            if (IsOdd(temperature[i])) // check for odd number temperatures
+            {
+                countOdd++;
+                oddSum += temperature[i];
+
+                if (temperature[i] > maxOdd)// check for max odd temperature
+                {
+                    if (maxOdd != int.MaxValue)
+                    {
+                        secondMaxOdd = maxOdd;
+                    }
+                    maxOdd = temperature[i];
+                }
+                else if (temperature[i] > secondMaxOdd && temperature[i] != maxOdd)
+                {
+                    secondMaxOdd = temperature[i];
+                }
+            }
+            sum = sum + temperature[i];
+            if (IsPrime(temperature[i])) // check for prime temperatures
+            {
+                primeSum += temperature[i];
+            }
+
+            if (IsMinThreeDigits(temperature[i])) // check for 3 digit temperature
+            {
+                min3DigitsTemperaturerSum += temperature[i];
+            }
+
+            if (temperature[i] < min)// check for min temperature
+            {
+                min = temperature[i];
+            }
+        }
+
+
+        isMinPrime = IsPrime(min);
+
+
+        avg = sum / count; // to find avertemperature
+        Console.WriteLine($"Average Temperature: {avg}");
+        Console.WriteLine($"Prime Temperatures sum: {primeSum}"); //Anjana NK
+        Console.WriteLine($"min 3 digits Temperature Sum: {min3DigitsTemperaturerSum}");
+        Console.WriteLine($"Min Temperature: {min}");
+        Console.WriteLine($"Odd Temperature Sum: {oddSum}");
+        if (secondMaxOdd == int.MaxValue)
+        {
+            Console.WriteLine("Second Max Odd Temperature does not exist");
+        }
+        else
+        {
+            Console.WriteLine($"Second Max Odd Temperature: {secondMaxOdd}");
+        }
+
+        if (isMinPrime) // check if Minimum temperature is prime
+        {
+            Console.WriteLine("Minimum temperature is also prime");
+        }
+        else
+        {
+            Console.WriteLine("Minimum temperature is not prime");
+        }
+    }
+
+    static bool IsPrime(int temperature)
+    {
+        bool isPrime = true;
+        int sqrtTemperature = (int)Math.Sqrt((double)temperature);
+        for (int i = 2; i <= sqrtTemperature; i++)
+        {
+            if (temperature % i == 0)
+            {
+                isPrime = false;
+                break;
+            }
+        }
+        return isPrime;
+    }
+    static bool IsMinThreeDigits(int temperature)
+    {
+        return (temperature >= 100);
+    }
+
+
+    static bool IsOdd(int temperature)
+    {
+        return temperature % 2 != 0;
+    }
+
+
+    static void TestReadPatientTemperature()
+    {
+        ReadPatientTemperature();
+    }
+
+    static void Main(string[] args)
+    {
+        Console.WriteLine("-----TestReadPatientTemperature-----");
+        TestReadPatientTemperature();
+        Console.WriteLine("-----End TestReadPatientTemperature-----");
+        Console.ReadKey();
+    }
+
+
+}
