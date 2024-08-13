@@ -1,0 +1,118 @@
+1 - Banking 
+-------------------------------------------------------------------------- 
+ class Account
+ {
+     public string number;
+     private double balance;
+
+     public double Balance
+     {
+         private set
+         {
+             if (value < 0)
+             {
+                 Console.WriteLine("Negative balance not allowed");
+                 return;
+             }
+             if (value > 5000000)
+             {
+                 Console.WriteLine("Should not exceed 50 lakhs");
+                 return;
+             }
+             balance = value;
+         }
+         get { return balance; }
+     }
+     public Account(string _number)
+     {
+         number = _number;
+         Balance = 0;
+     }
+
+     public void deposit(double amount)
+     {
+         if (amount > 1000000)
+         {
+             Console.WriteLine("Cannot deposit more than 10 lakh.\n Transaction cancelled");
+             return;
+         }
+         Balance += amount;
+     }
+     public void withdraw(double amount)
+     {
+         if (amount <= 0)
+         {
+             Console.WriteLine("Withdrawal not possible.\n Transaction cancelled");
+             return;
+         }
+         if ((balance - amount) <0)
+         {
+             Console.WriteLine("Cannot withdraw more than your balance.\n Transaction cancelled");
+             return;
+         }
+         Balance -= amount;
+     }
+ }
+ internal class Program
+ {
+     static void Main(string[] args)
+     {
+         Account anuragAc = new Account("1241654251"); //bal 0
+         anuragAc.deposit(500000); //bal 500000
+         anuragAc.deposit(200000); //bal 700000
+         anuragAc.withdraw(75000); //bal 625000
+         Console.WriteLine($"Account balance : {anuragAc.Balance}");
+         anuragAc.withdraw(700000);
+         Console.WriteLine($"Account balance : {anuragAc.Balance}");
+         anuragAc.withdraw(625000); //bal 0
+         Console.WriteLine($"Account balance : {anuragAc.Balance}");
+         anuragAc.deposit(1000001); //bal 1000001
+
+         Console.WriteLine($"Account balance : {anuragAc.Balance}");
+         anuragAc.deposit(1000000); //bal 1000001
+         Console.WriteLine($"Account balance : {anuragAc.Balance}");
+         
+         anuragAc.deposit(-1000000); 
+         Console.WriteLine($"Account balance : {anuragAc.Balance}");
+         anuragAc.withdraw(-1000000);
+         Console.WriteLine($"Account balance : {anuragAc.Balance}");
+
+         Console.ReadKey();
+     }
+ }
+
+ --------------------------------------------------------------------------
+ 2 - Movie
+ --------------------------------------------------------------------------
+ class Movie
+    {
+        public int id;
+        public string name;
+        public Movie(int _id, string _name)
+        {
+            id = _id;
+            name = _name;
+        }
+        public Movie()
+        {
+            id = 0;
+            name = "";
+        }
+    }
+    internal class Program
+    {
+        static void Main(string[] args) 
+        {
+            Movie manjummelBoys = new Movie(1001, "Manjummel Boys");
+            Movie aavesham = new Movie();
+            aavesham.id = 1002;
+            aavesham.name = "Aavesham";
+
+            Console.WriteLine($"id={manjummelBoys.id}, name={manjummelBoys.name}");
+            Console.WriteLine($"id={aavesham.id}, name={aavesham.name}");
+            Console.ReadKey();
+        }
+
+
+
+    }
