@@ -1,0 +1,149 @@
+1 - Rectangle area comparison
+---------------------------------------------------------------------------
+    class Rectangle
+    {
+        public int Length { get; set; }
+        public int Breadth { get; set; }
+
+        public Rectangle(int length, int breadth)
+        {
+            this.Length = length;
+            this.Breadth = breadth;
+        }
+        public override string ToString()
+        {
+            return $"[Length={this.Length}, Breadth={this.Breadth}, Area={this.FindArea()}]";
+        }
+  
+        public int FindArea()
+        {
+            return Length * Breadth;
+        }
+        public bool IsAreaGreaterThan(Rectangle other)
+        {
+            return FindArea() > other.FindArea();
+        }
+        public bool IsAreaEqual(Rectangle other)
+        {
+            return FindArea() == other.FindArea();
+        }
+      
+        public bool IsAreaLessThan(Rectangle other)
+        {
+            return FindArea() > other.FindArea();
+        }
+  }
+
+  static void Main(string[] args)
+  {
+      Rectangle first = new RectangleV2(10, 25);
+      Rectangle second = new RectangleV2(20, 15);
+      if (first.IsAreaGreaterThan(second))
+      {
+          Console.WriteLine($"First Land {first} is greater than Second Land{second}");
+      }
+      else if (first.IsAreaEqual(second))
+      {
+          Console.WriteLine("Equal areas");
+      }
+      else
+      {
+          Console.WriteLine($"Second Land {second} is greater than First Land{first}");
+      }
+  }
+
+---------------------------------------------------------------------------
+2 - Calculator
+---------------------------------------------------------------------------
+class Calculator
+{
+    public int num1;
+    public int num2;
+
+    public void Add()
+    {
+        Console.WriteLine($"Sum of {num1} and {num2} is        : {num1 + num2}");
+    }
+    public void Sub()
+    {
+        Console.WriteLine($"Difference of {num1} and {num2} is : {num1 - num2}");
+    }
+    public void Mul()
+    {
+        Console.WriteLine($"Product of {num1} and {num2} is    : {num1 * num2}");
+    }
+    public void Div()
+    {
+        Console.WriteLine($"Quotient of {num1} / {num2} is     : {num1 / num2}");
+    }
+}
+internal class Program
+{
+    static void Main(string[] args)
+    {
+        var c1 = new Calculator
+        {
+            num1 = 20,
+            num2 = 10,
+        };
+        c1.Add();
+        c1.Sub();
+        c1.Mul();
+        c1.Div();
+        var c2 = new Calculator
+        {
+            num1 = 30,
+            num2 = 6,
+        };
+        c2.Add();
+        c2.Sub();
+        c2.Mul();
+        c2.Div();
+
+    }
+}
+
+---------------------------------------------------------------------------
+3 - Student
+---------------------------------------------------------------------------
+
+class Student 
+{
+    public string Name;
+    public int Mark1;
+    public int Mark2;
+    public int Mark3;
+
+    public void Total()
+    {
+        int total = Mark1 + Mark2 + Mark3;
+        Console.WriteLine($"Total mark of {Name}  : {total}");
+    }
+    public void Avg()
+    { 
+        double avg = (Mark1 + Mark2 + Mark3) / 3;
+        Console.WriteLine($"Average mark of {Name}: {avg}");
+    }
+}
+internal class Program
+{
+    static void Main(string[] args)
+    {
+        Student student1 = new Student
+        {
+            Name = "Anu",
+            Mark1 = 30,
+            Mark2 = 40,
+            Mark3 = 50,
+        };
+        student1.Avg();
+        Student student2 = new Student
+        {
+            Name = "John",
+            Mark1 = 40,
+            Mark2 = 40,
+            Mark3 = 30,
+        };
+        student2.Avg();
+    }
+}
