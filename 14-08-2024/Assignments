@@ -1,0 +1,156 @@
+1 - CricketGround
+---------------------------------------------------------------
+class CricketGround
+{
+    public int LegSideLength;
+    public int OffSideLength;
+    public int StraightSideLength;
+    public int ThirdManSideLength;
+    public CricketGround(int _legSideLength, int _offSideLength, int _straightSideLength, int _thirdManSideLength)
+    {
+        LegSideLength = _legSideLength;
+        OffSideLength = _offSideLength;
+        StraightSideLength = _straightSideLength;
+        ThirdManSideLength = _thirdManSideLength;
+    }
+    public override string ToString()
+    {
+        return $"[Shortest Length = {FindShortestDistance()}]";
+    }
+    public int FindShortestDistance()
+    {
+        if (LegSideLength < OffSideLength && LegSideLength < StraightSideLength && LegSideLength < ThirdManSideLength)
+        {
+            return LegSideLength;
+        }
+        else if (OffSideLength < LegSideLength && OffSideLength < StraightSideLength && OffSideLength < ThirdManSideLength)
+        {
+            return OffSideLength;
+        }
+        else if (StraightSideLength < LegSideLength && StraightSideLength < OffSideLength && StraightSideLength < ThirdManSideLength)
+        {
+            return StraightSideLength;
+        }
+        else
+        {
+            return ThirdManSideLength;
+        }
+    }
+    public bool IsShortestDistanceGt(CricketGround other)
+    {
+        return FindShortestDistance() < other.FindShortestDistance();
+    }
+}
+
+internal class Program
+{
+    static void Main(string[] args)
+    {
+        CricketGround firstGround = new CricketGround(50, 40, 30, 20);
+        CricketGround secondGround = new CricketGround(60, 35, 50, 10);
+        if (firstGround.IsShortestDistanceGt(secondGround))
+        {
+            Console.WriteLine($"First Ground {firstGround} is shorter than Second Ground {secondGround}");
+        }
+        else
+        {
+            Console.WriteLine($"Second Ground {secondGround} is shorter than First Ground {firstGround}");
+        }
+        Console.ReadKey();
+    }
+}
+
+---------------------------------------------------------------
+2 - Circle
+---------------------------------------------------------------
+class Circle
+{
+    public int Radius;
+    
+    public Circle(int _radius)
+    {
+        Radius = _radius;
+    }
+    public override string ToString()
+    {
+        return $"[Radius = {Radius}]";
+    }
+    public double FindCircumference()
+    {
+        return 2 * 3.14 * Radius;
+    }
+    public bool IsCircumferenceGt(Circle other)
+    {
+        return FindCircumference() > other.FindCircumference();
+    }
+}
+
+internal class Program
+{
+    static void Main(string[] args)
+    {
+        Circle firstCircle = new Circle(30);
+        Circle secondCircle = new Circle(20);
+        if (firstCircle.IsCircumferenceGt(secondCircle))
+        {
+            Console.WriteLine($"First Circle {firstCircle} is having greater circumferece than Second Circle {secondCircle}");
+        }
+        else
+        {
+            Console.WriteLine($"Second Circle {secondCircle} is having greater circumferece than First Circle {firstCircle}");
+        }
+        Console.ReadKey();
+    }
+}
+
+---------------------------------------------------------------
+3 - BikeRaceTrack
+---------------------------------------------------------------
+class BikeRaceTrack
+{
+    public int Distance;
+    
+    public BikeRaceTrack(int _distance)
+    {
+        Distance = _distance;
+    }
+    public override string ToString()
+    {
+        return $"[Distance = {Distance}]";
+    }
+    public bool IsGt(BikeRaceTrack other)
+    {
+        return Distance > other.Distance;
+    }
+    public bool IsEqual(BikeRaceTrack other)
+    {
+        return Distance == other.Distance;
+    }
+}
+
+internal class Program
+{
+    static void Main(string[] args)
+    {
+        BikeRaceTrack firstTrack = new BikeRaceTrack(20);
+        BikeRaceTrack secondTrack = new BikeRaceTrack(20);
+        if (firstTrack.IsGt(secondTrack))
+        {
+            Console.WriteLine($"First track {firstTrack} is having greater distance than Second track {secondTrack}");
+        }
+        else if (firstTrack.IsEqual(secondTrack))
+        {
+            Console.WriteLine($"First track {firstTrack} is having equal distance to that of Second track {secondTrack}");
+        }
+        else 
+        {
+            Console.WriteLine($"First track {firstTrack} is having lesser distance than Second track {secondTrack}");
+        }
+        Console.ReadKey();
+    }
+}
+
+---------------------------------------------------------------
+4 - ComplexNumber
+---------------------------------------------------------------
+
