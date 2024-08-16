@@ -1,0 +1,151 @@
+enum usage 
+String :
+  i. Uppercase
+ ii. Lowercase
+iii. Trim
+------------------------------------------------------------------------
+internal class Program
+{
+    enum Convertions
+    {
+        Upper,
+        Lower,
+        Trim
+    }
+    static void Convert(string s, Convertions action)
+    {
+        switch (action)
+        {
+            case Convertions.Upper:
+                Console.WriteLine(s.ToUpper());
+
+                break;
+            case Convertions.Lower:
+                Console.WriteLine(s.ToLower());
+
+
+                break;
+            case Convertions.Trim:
+                Console.WriteLine(s.Trim());
+
+                break;
+
+            default:
+                Console.WriteLine("Invalid");
+
+                break;
+        }
+
+    }  
+    static void Main()
+    {
+        Console.Write("Enter a string : ");
+        string text = Console.ReadLine();
+
+        Console.WriteLine("1 - To uppercase\n2 - To lowercase\n3 - To trim spaces\n");
+        Console.Write("Enter your choice : ");
+        int choice = int.Parse(Console.ReadLine());
+        switch (choice)
+        {
+            case 1:
+                Convert(text, Convertions.Upper);
+                break;
+            case 2:
+                Convert(text, Convertions.Lower);
+                break;
+            case 3:
+                Convert(text, Convertions.Trim);
+                break;
+
+            default:
+                Console.WriteLine("Invalid");
+                break;
+        }
+        
+    }
+
+}
+
+------------------------------------------------------------------------
+Employee Class 
+Object as array program
+------------------------------------------------------------------------
+ class Employee
+    {
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public int Age { get; set; }
+
+        public override string ToString()
+        {
+            return $"Name: {Name} {Environment.NewLine}" +
+                $"Email: {Email} {Environment.NewLine}" +
+                $"Age: {Age}";
+        }
+    }
+
+    class EmployeeManager
+    {
+        private Employee[] employees = new Employee[10];
+        private int _count;
+
+        public void Add()
+        {
+            var emp = new Employee();
+            Console.Write("Name: ");
+            emp.Name = Console.ReadLine();
+            Console.Write("Email: ");
+            emp.Email = Console.ReadLine();
+            Console.Write("Age: ");
+            emp.Age = int.Parse(Console.ReadLine());
+            employees[_count] = emp;
+            _count++;
+        }
+
+        public void Search()
+        {
+            Console.WriteLine("Email: ");
+            var email = Console.ReadLine();
+
+            for (int i = 0; i < _count; i++)
+            {
+                var e = employees[i];
+                if (e.Email == email)
+                {
+                    Console.WriteLine(e);
+                    break;
+                }
+            }
+        }
+    }
+
+    internal class Program
+    {
+        static void Main()
+        {
+            EmployeeManager manager = new EmployeeManager();
+
+            while (true)
+            {
+                Console.WriteLine("1. Add new employee");
+                Console.WriteLine("2. Search employee");
+                Console.Write("Please enter your option: ");
+                var option = Console.ReadLine();
+                
+
+                switch (option)
+                {
+                    case "1":
+                        manager.Add();
+                        break;
+                    case "2":
+                        manager.Search();
+                        break;
+                    default:
+                        Console.WriteLine("Invalid option");
+                        break;
+                }
+            }
+        }
+
+    }
