@@ -1,1 +1,162 @@
+Rational Numbers Operations
+------------------------------------------------------------------------
 
+class MyUtil
+{
+    public static int FindGCD(int a, int b) //HCF
+    {
+        while (a != b)
+        {
+            if (a > b)
+                a -= b;
+            else
+                b -= a;
+        }
+        return a;
+    }
+}
+class RationalNumber
+{
+    public int Numerator { get; set; }
+    private int denominator;
+    public int Denominator
+    {
+        get
+        {
+            return denominator;
+        }
+        set
+        {
+            if (denominator == 0)
+            {
+                denominator = 1;
+            }
+            denominator = value;
+        }
+    }
+
+    public RationalNumber(int _numerator, int _denominator)
+    {
+        // throw ERR this.Denominator = 0
+        if (_denominator == 0)
+        {
+            _denominator = 1;
+        }
+        this.Numerator = _numerator;
+        this.Denominator = _denominator;
+    }
+    public RationalNumber Add(RationalNumber other)
+    {
+        RationalNumber sum = new RationalNumber(0, 0);
+        sum.Numerator = (this.Numerator * other.Denominator) + (other.Numerator * this.Denominator);
+        sum.Denominator = this.Denominator * other.Denominator;
+
+        int gcd = MyUtil.FindGCD(sum.Numerator, sum.Denominator);
+        sum.Numerator = sum.Numerator / gcd;
+        sum.Denominator = sum.Denominator / gcd;
+        return sum;
+    }
+
+    public RationalNumber Sub(RationalNumber other)
+    {
+        RationalNumber diff = new RationalNumber(0, 0);
+        diff.Numerator = (this.Numerator * other.Denominator) - (other.Numerator * this.Denominator);
+        diff.Denominator = this.Denominator * other.Denominator;
+
+        int gcd = MyUtil.FindGCD(diff.Numerator, diff.Denominator);
+        diff.Numerator = diff.Numerator / gcd;
+        diff.Denominator = diff.Denominator / gcd;
+        return diff;
+    }
+    public RationalNumber Mul(RationalNumber other)
+    {
+        RationalNumber mul = new RationalNumber(0, 0);
+        mul.Numerator = (this.Numerator * other.Numerator);
+        mul.Denominator = this.Denominator * other.Denominator;
+
+        int gcd = MyUtil.FindGCD(mul.Numerator, mul.Denominator);
+        mul.Numerator = mul.Numerator / gcd;
+        mul.Denominator = mul.Denominator / gcd;
+        return mul;
+    }
+
+    public RationalNumber Div(RationalNumber other)
+    {
+        RationalNumber div = new RationalNumber(0, 0);
+        div.Numerator = (this.Numerator * other.Denominator);
+        div.Denominator = this.Denominator * other.Numerator;
+
+        int gcd = MyUtil.FindGCD(div.Numerator, div.Denominator);
+        div.Numerator = div.Numerator / gcd;
+        div.Denominator = div.Denominator / gcd;
+        return div;
+    }
+
+    public RationalNumber GtOrLt(RationalNumber other)
+    {
+        int Y = this.Numerator * other.Denominator - this.Denominator * other.Numerator;
+
+        return (Y > 0) ? this : other;
+    }
+    public override string ToString()
+    {
+        return $"[{Numerator} / {Denominator}]";
+    }
+
+}
+internal class TestComplexNumber
+{
+    static void Main(string[] args)
+    {
+        Console.WriteLine("Enter first rational number :  ");
+        var a = int.Parse(Console.ReadLine());
+        var b = int.Parse(Console.ReadLine());
+
+        Console.WriteLine("Enter second rational number :  ");
+        var c = int.Parse(Console.ReadLine());
+        var d = int.Parse(Console.ReadLine());
+        Console.WriteLine();
+        RationalNumber firstNo = new RationalNumber(a, b);
+        RationalNumber secondNo = new RationalNumber(c, d);
+        Console.WriteLine("1. Add\n2. Subtract\n3. Multiply\n4. Divide\n5. Compare numbers (> or <)");
+        Console.Write("Enter your choice : ");
+        int choice = int.Parse(Console.ReadLine());
+        switch (choice)
+        {
+            case 1:
+                RationalNumber addResult = firstNo.Add(secondNo);
+                Console.WriteLine($"{firstNo} + {secondNo} = {addResult}");
+
+                break;
+            case 2:
+                RationalNumber subResult = firstNo.Sub(secondNo);
+                Console.WriteLine($"{firstNo} - {secondNo} = {subResult}");
+                break;
+            case 3:
+                RationalNumber mulResult = firstNo.Mul(secondNo);
+                Console.WriteLine($"{firstNo} * {secondNo} = {mulResult}");
+
+                break;
+            case 4:
+                RationalNumber divResult = firstNo.Div(secondNo);
+                Console.WriteLine($"{firstNo} / {secondNo} = {divResult}");
+
+                break;
+            case 5:
+                RationalNumber compResult = firstNo.GtOrLt( secondNo);
+                if(compResult == firstNo)
+                {
+                    Console.WriteLine($"{firstNo} > {secondNo}");
+                }
+                else if(compResult == secondNo)
+                {
+                    Console.WriteLine($"{firstNo} < {secondNo}");
+                }
+                break;
+            default:
+                Console.WriteLine("Invalid choice");
+                break;
+        }
+
+    }
+}
