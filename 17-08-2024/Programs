@@ -1,0 +1,95 @@
+1 - Interface
+----------------------------------------------------------
+
+public interface IFlyable
+{
+    void Fly();
+}
+public class Crow : IFlyable
+{
+    public void Fly()
+    {
+        Console.WriteLine("Crow is Flying...");
+    }
+
+}
+public class Parrot : IFlyable
+{
+    public void Fly()
+    {
+        Console.WriteLine("Parrot is Flying...");
+    }
+}
+
+internal class Programs
+{
+    static void TestFlyable(IFlyable bird)
+    {
+        bird.Fly();
+    }
+    static void Main(string[] args)
+    {
+        TestFlyable(new Crow());   //"Crow is Flying..."
+        TestFlyable(new Crow());   //"Crow is Flying..."
+        TestFlyable(new Parrot()); //"Parrot is Flying..."
+
+        Console.WriteLine("Testing birds in the trees of the district");
+        IFlyable[] flys = { new Crow(), new Crow(), new Crow(), new Crow(), new Parrot() };
+        foreach (IFlyable fly in flys)
+        {
+            TestFlyable(fly);
+        }
+    }
+}
+
+----------------------------------------------------------
+2 - Interface and Abstarct
+----------------------------------------------------------
+
+abstract class Employee
+{
+    public abstract decimal CalculateSalary();
+}
+
+class FullTimeEmployee : Employee
+{
+    public decimal BaseSalary { get; set; }
+    public decimal BonusPercentage { get; set; }
+
+    public FullTimeEmployee(decimal baseSalary, decimal bonusPercentage)
+    {
+        BaseSalary = baseSalary;
+        BonusPercentage = bonusPercentage;
+    }
+
+    public override decimal CalculateSalary()
+    {
+        return BaseSalary + (BaseSalary * BonusPercentage);
+    }
+}
+
+class PartTimeEmployee : Employee
+{
+    public decimal HourlyRate { get; set; }
+    public int HoursWorked { get; set; }
+
+    public PartTimeEmployee(decimal hourlyRate, int hoursWorked)
+    {
+        HourlyRate = hourlyRate;
+        HoursWorked = hoursWorked;
+    }
+
+    public override decimal CalculateSalary()
+    {
+        return HourlyRate * HoursWorked;
+    }
+}
+static void Main()
+{
+    Employee fullTime = new FullTimeEmployee(50000, 0.1m);
+    Console.WriteLine(fullTime.CalculateSalary());  // Output: 55000
+
+    Employee partTime = new PartTimeEmployee(20, 80);
+    Console.WriteLine(partTime.CalculateSalary());  // Output: 1600
+}
+
