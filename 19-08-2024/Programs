@@ -152,6 +152,7 @@ public abstract class Employee
     {
         return this.CalculateSalary() == other.CalculateSalary();
     }
+    public abstract void Read();
 }
 
 class FullTimeEmployee : Employee
@@ -176,7 +177,7 @@ class FullTimeEmployee : Employee
         return BaseSalary + (BaseSalary * BonusPercentage);
     }
 
-    public void Read()
+    public override void Read()
     {
         Console.Write("BaseSalary :");
         BaseSalary = int.Parse(Console.ReadLine());
@@ -212,7 +213,7 @@ class PartTimeEmployee : Employee
         return HourlyRate * HoursWorked;
     }
 
-    public void Read()
+    public override void Read()
     {
         Console.Write("HourlyRate :");
         HourlyRate = int.Parse(Console.ReadLine());
