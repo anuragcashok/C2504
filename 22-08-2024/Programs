@@ -1,0 +1,97 @@
+Ref and Out Keywords
+-----------------------------------------------------------------------
+Program - 1
+-----------------------------------------------------------------------
+ internal class Programs
+ {
+     long findSumExtended(long a, long b, out long diff, out long prod,
+         out long quotient, out long remaninder)
+     {
+         //long x = diff + prod;//ERR, using out arg before updating to 'out' arg throws ERR
+         long sum = a + b;
+         diff = a - b;
+         prod = a * b;
+         quotient = a / b;
+         remaninder = a % b; //All out args should be updated before returning from the fn
+                             //long x = diff + prod;//No ERR, using out arg after updating to 'out' arg is VALID
+         return sum;
+     }
+     static void Main(string[] args)
+     {
+         Programs programs = new Programs();
+         long s, d = 10, p = 20, q = 30, r = 40;
+         s = programs.findSumExtended(20, 3, out d, out p, out q, out r);
+         Console.WriteLine($"sum={s}, diff={d}, prod={p}, quotient={q}, remaninder={r}");
+         //23, 17, 60, 6, 2
+     }
+ }
+
+-----------------------------------------------------------------------
+Program - 2 
+-----------------------------------------------------------------------
+static bool TryDiv(int x, int y,out int res)
+{
+    try
+    {
+        res = x / y;
+    }
+    catch 
+    {
+        res = 0;
+        return false;
+    }
+
+}
+static void Main()
+{
+    int a = 10;
+    int b = 5;
+    if (TryDiv(a, b, out int result))
+    {
+        Console.WriteLine(result);
+    }
+    else
+    {
+        Console.WriteLine("Division failed");
+    }
+}  
+
+-----------------------------------------------------------------------
+Program - 3
+-----------------------------------------------------------------------
+enum ConversionType
+{
+    Uppercase,
+    Lowercase
+}
+static ConversionType ConvertCase(string s, out string status)
+{
+    char FirstLetter = s[0];
+    
+    if(char.IsUpper(FirstLetter))
+    {
+        status = s.ToLower();
+        return ConversionType.Lowercase;
+    }
+    else 
+    {
+        status = s.ToUpper();
+        return ConversionType.Uppercase;
+    }
+
+}
+static void Main()
+{
+    Console.Write("Enter a string : ");
+    string s = Console.ReadLine();
+
+    switch(ConvertCase(s,out string status))
+    {
+        case ConversionType.Lowercase:
+            Console.WriteLine($"Result after converting to lowercase : {status}");
+            break;
+        case ConversionType.Uppercase:
+            Console.WriteLine($"Result after converting to uppercase : {status}");
+            break;
+    }
+} 
