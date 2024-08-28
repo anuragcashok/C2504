@@ -1,0 +1,188 @@
+1 - Removing duplicates from an array
+-------------------------------------------------------------------------------------
+internal class Programs
+{
+    static void Main()
+    {
+        float[] salaries = { 10, 20, 30, 50, 50, 60, 60, 60, 70, 80, 80 };
+
+        float[] distinctSalaries = new float[100]; int distinctSize = 0;
+
+        distinctSalaries[distinctSize] = salaries[0];
+        distinctSize++;
+
+        for(int I = 1; I < salaries.Length; I++)
+        {
+            if (salaries[I-1] == salaries[I])
+            {
+                continue;
+            }
+
+            distinctSalaries[distinctSize] = salaries[I];
+            distinctSize++;
+        }
+        for (int I = 0; I < distinctSize; I++)
+        {
+            Console.Write($"{distinctSalaries[I]} ");
+        }
+    }
+}
+
+-------------------------------------------------------------------------------------
+2 - String functions
+-------------------------------------------------------------------------------------
+static void Main()
+{
+    string text = "    Hello    world";
+    Console.WriteLine(text.Trim());
+    Console.WriteLine(text.TrimEnd());
+    Console.WriteLine(text.TrimStart());
+
+    Console.WriteLine(text.StartsWith(" "));
+    Console.WriteLine(text.EndsWith("."));
+
+    Console.WriteLine(text.Contains("."));
+    Console.WriteLine(text.Remove(3,7));
+    Console.WriteLine(text.Replace(" ","_"));
+
+    Console.WriteLine(text.IndexOf("."));
+
+    // Remove extra spaces, replace space with "_", replace world with Anurag
+    text = text.Trim().Replace(" ","_").Replace("world","Anurag");
+    Console.WriteLine(text);
+
+    string[] arr = { "one", "two", "three" };
+    Console.WriteLine(string.Join(",",arr));
+
+}
+
+-------------------------------------------------------------------------------------
+3 - Array functions
+-------------------------------------------------------------------------------------
+
+static void Main()
+{
+    var a = new int[]{ 2,3,4};
+    Console.WriteLine($"Length : {a.Length}");
+    Console.WriteLine($"Max    : {a.Max()}");
+    Console.WriteLine($"min    : {a.Min()}");
+    Console.WriteLine($"First  : {a.First()}");
+    Console.WriteLine($"Last   : {a.Last()}");
+    Console.WriteLine($"Sum    : {a.Sum()}");
+    Console.WriteLine($"Avg    : {a.Average()}");
+    //Console.WriteLine(a.Length);
+}
+
+-------------------------------------------------------------------------------------
+4 - List functions
+-------------------------------------------------------------------------------------
+
+static void Main()
+{
+    var l = new List<int> { 2, 3, 4 };
+    Console.WriteLine($"Length : {l.Count}");
+    Console.WriteLine($"Max    : {l.Max()}");
+    Console.WriteLine($"min    : {l.Min()}");
+    Console.WriteLine($"First  : {l.First()}");
+    Console.WriteLine($"Last   : {l.Last()}");
+    Console.WriteLine($"Sum    : {l.Sum()}");
+    Console.WriteLine($"Avg    : {l.Average()}");
+}
+
+-------------------------------------------------------------------------------------
+5 - Finding common characters from 2 strings
+-------------------------------------------------------------------------------------
+- Version 1 : (Repeatations)
+
+ string s1 = "helooo";
+ string s2 = "bhkehh";
+
+ foreach (char c1 in s1)
+ {
+     foreach (char c2 in s2)
+     {
+         if (c1 == c2)
+         {
+             Console.WriteLine(c1);
+         }
+     }
+ }
+
+ - Version 2 : (Using intersect function)
+
+ Console.WriteLine();
+ var s3 = s1.Intersect(s2);
+ foreach (var item in s3)
+ {
+     Console.WriteLine(item);
+ }
+
+ - Version 3: (Without repeatation and intersect function)
+
+ var a = "abcedfe";
+ var b = "eghjiklaabcd";
+
+ var largest = a.Length > b.Length ? a : b;
+ var smallest = a.Length < b.Length ? a : b;
+ var withoutDups = string.Empty;
+
+ foreach (var item in largest)
+ {
+     if (!withoutDups.Contains(item))
+         withoutDups += item;
+ }
+
+ foreach (var item in withoutDups)
+ {
+     if (smallest.Contains(item))
+     {
+         Console.WriteLine($"Found: {item}");
+     }
+ }
+
+-------------------------------------------------------------------------------------
+6 - Left and right rotaion of an array (copying into another array)
+-------------------------------------------------------------------------------------
+- Left rotate at index k [Copy]
+internal class Programs
+{
+   
+    static void Main()
+    {
+        for(int I = k + 1; I < salaries.Length; I++) //from  k+1 till end 
+        {
+            rotated[size] = salaries[I]; size++;
+        }
+        for (int I = 0; I <= k; I++) //from first element till  k
+        {
+            rotated[size] = salaries[I]; size++;
+        }
+        for (int I = 0; I < size; I++)
+        {
+            Console.Write($"{rotated[I]} ");
+        }
+
+    }
+}
+
+- Right rotate at index k [Copy]
+internal class Programs
+{
+   
+    static void Main()
+    {
+        for(int I = k ; I < salaries.Length; I++) //from  k till end 
+        {
+            rotated[size] = salaries[I]; size++;
+        }
+        for (int I = 0; I <= k-1; I++) //from first element before  k
+        {
+            rotated[size] = salaries[I]; size++;
+        }
+        for (int I = 0; I < size; I++)
+        {
+            Console.Write($"{rotated[I]} ");
+        }
+
+    }
+}
