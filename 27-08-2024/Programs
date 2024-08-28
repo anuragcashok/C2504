@@ -1,0 +1,70 @@
+1 - Usage of foreach
+----------------------------------------------------------------
+class Program1
+{
+    static void Main()
+    {
+        var str = "Haaii";
+        foreach (var item in str)
+        {
+            var upper = char.ToUpper(item);
+            Console.WriteLine(upper);
+        }
+    }
+}
+
+----------------------------------------------------------------
+2 - Usage of tuple
+----------------------------------------------------------------
+public static void Main()
+{
+    var studMarks = new (int, int, int)[]
+    {
+        (2, 4, 5),
+        (7, 6, 8),
+        (5, 0, 9)
+    };
+    foreach (var marks in studMarks)
+    {
+        // Displays each mark one below other
+        Console.WriteLine(marks.Item1);
+        Console.WriteLine(marks.Item2);
+        Console.WriteLine(marks.Item3);
+    }
+    foreach (var marks in studMarks)
+    {
+        // Displays marks as given
+        Console.WriteLine(marks);
+    }
+}
+
+----------------------------------------------------------------
+3 - Exception Handling
+----------------------------------------------------------------
+static void Main()
+{
+    Console.WriteLine("Enter two numbers : ");
+    double num1 = double.Parse(Console.ReadLine());
+    double num2 = double.Parse(Console.ReadLine());
+
+    try
+    {
+        double result = Divide(num1, num2);
+        Console.WriteLine($"Result: {result}");
+    }
+
+    catch (DivideByZeroException ex)
+    {
+        Console.WriteLine($"Division by zero is not allowed. {ex.Message}");
+    }
+
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Unknown error: {ex.Message}");
+    }
+}
+
+static double Divide(double num1, double num2)
+{
+    return num1 / num2;
+}
