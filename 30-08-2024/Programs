@@ -1,0 +1,63 @@
+1 - Program using delegates
+---------------------------------------------------------------------------------------
+public delegate void Operation(int n1, int n2);
+
+internal class Class1
+{
+    public static void Add(int a, int b) => Console.WriteLine(a + b);
+    
+    public static void Sub(int a, int b) => Console.WriteLine(a - b);
+
+    public static void Mul(int a, int b, int c) => Console.WriteLine(a * b * c);
+
+    static void Main(string[] args)
+    {
+        Operation op = Add;
+        op += Sub; // Multicasting delegates
+        op += Sub; // Multicasting delegates
+        op -= Sub; // Multicasting delegates
+        op -= Add;
+        Thread.Sleep(1000);
+        op(10, 5);
+    }
+}
+
+---------------------------------------------------------------------------------------
+2 - SetTimer Function
+---------------------------------------------------------------------------------------
+public delegate void Operation(int n1, int n2);
+
+internal class Class1
+{
+    public static void Add(int a, int b) => Console.WriteLine(a + b);
+    
+    public static void SetTimer(int delay,  Operation op)
+    {
+        Thread.Sleep(delay);
+        op(10, 5);
+    }
+    static void Main(string[] args)
+    {
+        //Operation op = Add;
+        //var delay = 1000;
+        SetTimer(1000, Add);
+    }
+}
+
+---------------------------------------------------------------------------------------
+3 - Delegate -> Action, Func, Predicate
+---------------------------------------------------------------------------------------
+internal class Class1
+{
+    public static void Add(int a, int b) => Console.WriteLine(a + b);
+    public static long Mul(int a, int b) => a * b;
+    public static bool IsEven(int a) => a%2==0;
+    
+    
+    static void Main(string[] args)
+    {
+        Action<int, int> x = Add;   // void return type
+        Func<int, int,long> y = Mul;// non void return type
+        Predicate<int>z= IsEven;//return type is bool and single parameter
+    }
+}
