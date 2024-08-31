@@ -1,0 +1,285 @@
+Program.cs
+-------------------------------------------------------------------------
+internal class Program
+{
+    static void Main(string[] args)
+    {
+        PrescriptionMenu.Menu();
+        Console.ReadKey();
+    }
+}
+
+-------------------------------------------------------------------------
+PrescriptionMenu.cs
+-------------------------------------------------------------------------
+internal class PrescriptionMenu
+{
+    public static void Menu()
+    {
+        PrescriptionUI ui = new PrescriptionUI();
+        bool running = true;
+
+        while (running)
+        {
+
+            Console.WriteLine("\nPrescription Management System");
+            Console.WriteLine("1. Add prescription");
+            Console.WriteLine("2. Read prescription");
+            Console.WriteLine("3. Update prescription");
+            Console.WriteLine("4. Delete prescription");
+            Console.WriteLine("5. List All prescriptions");
+            Console.WriteLine("6. Exit");
+
+            Console.Write("Choose an option: ");
+            string choice = Console.ReadLine();
+            Console.Clear();
+            switch (choice)
+            {
+                case "1":
+                    Console.WriteLine("   Add prescription");
+                    ui.AddPrescription();
+                    break;
+                case "2":
+                    Console.WriteLine("   Read prescription");
+                    ui.ReadPrescription();
+                    break;
+                case "3":
+                    Console.WriteLine("   Update prescription");
+                    ui.UpdatePrescription();
+                    break;
+                case "4":
+                    Console.WriteLine("   Delete prescription");
+                    ui.DeletePrescription();
+                    break;
+                case "5":
+                    Console.WriteLine("   List All prescriptions");
+                    ui.ListAllPrescription();
+                    break;
+                case "6":
+                    running = false;
+                    Console.WriteLine("Exiting...");
+                    break;
+                default:
+                    Console.WriteLine("Invalid choice. Please try again.");
+                    break;
+            }
+        }
+    }
+}
+
+
+-------------------------------------------------------------------------
+PrescriptionUI.cs
+-------------------------------------------------------------------------
+internal class PrescriptionUI
+{
+    private PrescriptionDAO prescriptionDAO = new PrescriptionDAO();
+
+    public void AddPrescription()
+    {
+        Console.Write("Enter DoctorID: ");
+        int doctorID = int.Parse(Console.ReadLine());
+        Console.Write("Enter PatientName: ");
+        string patientName = Console.ReadLine();
+        Console.Write("Enter Dosage: ");
+        double dosage = double.Parse(Console.ReadLine());
+
+        DoctorPrescription doctorPrescription = new DoctorPrescription(doctorID, patientName, dosage);
+
+        prescriptionDAO.Create(doctorPrescription);
+        Console.WriteLine("Prescription created successfully.");
+    }
+
+    public void ReadPrescription()
+    {
+        Console.Write("Enter Doctor ID: ");
+        int id = int.Parse(Console.ReadLine());
+
+        DoctorPrescription doctorPrescription = prescriptionDAO.Read(id);
+        if (doctorPrescription != null)
+        {
+            Console.WriteLine($"ID: {doctorPrescription.DoctorID}");
+            Console.WriteLine($"Name: {doctorPrescription.PatientName}");
+            Console.WriteLine($"Place: {doctorPrescription.Dosage}");
+        }
+        else
+        {
+            Console.WriteLine("Prescrition not found.");
+        }
+    }
+
+    public void UpdatePrescription()
+    {
+        Console.Write("Enter Doctor ID: ");
+        int id = int.Parse(Console.ReadLine());
+
+        DoctorPrescription doctorPrescription = prescriptionDAO.Read(id);
+        if (doctorPrescription != null)
+        {
+            Console.Write("Enter DoctorID: ");
+            int doctorID = int.Parse(Console.ReadLine());
+            Console.Write("Enter PatientName: ");
+            string patientName = Console.ReadLine();
+            Console.Write("Enter Dosage: ");
+            double dosage = double.Parse(Console.ReadLine());
+
+            prescriptionDAO.Update(doctorPrescription);
+            Console.WriteLine("Prescription updated successfully.");
+        }
+        else
+        {
+            Console.WriteLine("Prescription not found.");
+        }
+    }
+
+    public void DeletePrescription()
+    {
+        Console.Write("Enter Doctor ID: ");
+        int id = int.Parse(Console.ReadLine());
+
+        prescriptionDAO.Delete(id);
+        Console.WriteLine("Prescription deleted successfully.");
+    }
+
+    public void ListAllPrescription()
+    {
+        List<DoctorPrescription> doctorPrescriptions = prescriptionDAO.ListAll();
+        foreach (DoctorPrescription doctorPrescription in doctorPrescriptions)
+        {
+            Console.WriteLine($"DoctorID: {doctorPrescription.DoctorID}, PatientName: {doctorPrescription.PatientName}, Dosage: {doctorPrescription.Dosage}");
+        }
+    }
+}
+
+
+-------------------------------------------------------------------------
+PrescriptionDAO.cs
+-------------------------------------------------------------------------
+internal class PrescriptionDAO
+{
+    private string connectionString = "Data Source=LAPTOP-19GF1AGG\\SQLEXPRESS04;Initial Catalog=Week4AssessmentDb;Integrated Security=True;";
+ 
+    public void Create(DoctorPrescription doctorPrescription)
+    {
+        using (SqlConnection conn = new SqlConnection(connectionString))
+        {
+            string query = "INSERT INTO DoctorPrescription (DoctorID, PatientName, Dosage) VALUES (@DoctorID, @PatientName, @Dosage)";
+            SqlCommand cmd = new SqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@DoctorID", doctorPrescription.DoctorID);
+            cmd.Parameters.AddWithValue("@PatientName", doctorPrescription.PatientName);
+            cmd.Parameters.AddWithValue("@Dosage", doctorPrescription.Dosage);
+
+            conn.Open();
+            cmd.ExecuteNonQuery();
+        }
+    }
+
+    public DoctorPrescription Read(int doctorID)
+    {
+        DoctorPrescription doctorPrescription = null;
+        using (SqlConnection conn = new SqlConnection(connectionString))
+        {
+            string query = "SELECT DoctorID, PatientName, Dosage FROM DoctorPrescription WHERE DoctorID = @DoctorID";
+            SqlCommand cmd = new SqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@DoctorID", doctorID);
+
+            conn.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+            if (reader.Read())
+            {
+                doctorPrescription = new DoctorPrescription((int)reader["DoctorID"], reader["PatientName"].ToString(), (double)reader["Dosage"]);
+            }
+        }
+        return doctorPrescription;
+    }
+
+    // Update a Prescription
+    public void Update(DoctorPrescription doctorPrescription)
+    {
+        using (SqlConnection conn = new SqlConnection(connectionString))
+        {
+            string query = "UPDATE DoctorPrescription SET PatientName = @PatientName, Dosage = @Dosage WHERE DoctorID = @DoctorID";
+            SqlCommand cmd = new SqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@DoctorID", doctorPrescription.DoctorID);
+            cmd.Parameters.AddWithValue("@PatientName", doctorPrescription.PatientName);
+            cmd.Parameters.AddWithValue("@Dosage", doctorPrescription.Dosage);
+
+            conn.Open();
+            cmd.ExecuteNonQuery();
+        }
+    }
+
+    // Delete a Prescription by ID
+    public void Delete(int doctorID)
+    {
+        using (SqlConnection conn = new SqlConnection(connectionString))
+        {
+            string query = "DELETE FROM DoctorPrescription WHERE DoctorID = @DoctorID";
+            SqlCommand cmd = new SqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@DoctorID", doctorID);
+
+            conn.Open();
+            cmd.ExecuteNonQuery();
+        }
+    }
+
+    // List all DoctorPrescription
+    public List<DoctorPrescription> ListAll()
+    {
+        List<DoctorPrescription> doctorPrescriptions = new List<DoctorPrescription>();
+        using (SqlConnection conn = new SqlConnection(connectionString))
+        {
+            string query = "SELECT DoctorID, PatientName, Dosage FROM DoctorPrescription";
+            SqlCommand cmd = new SqlCommand(query, conn);
+
+            conn.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                DoctorPrescription doctorPrescription = new DoctorPrescription((int)reader["DoctorID"], reader["PatientName"].ToString(), (double)reader["Dosage"]);
+                doctorPrescriptions.Add(doctorPrescription);
+            }
+        }
+        return doctorPrescriptions;
+    }
+}
+
+
+-------------------------------------------------------------------------
+DoctorPrescription.cs
+-------------------------------------------------------------------------
+internal class DoctorPrescription
+{
+    public int DoctorID { get; set; }
+    public string PatientName { get; set; }
+    public double Dosage { get; set; }
+
+    public DoctorPrescription(int doctorID, string patientName, double dosage)
+    {
+        DoctorID = doctorID;
+        PatientName = patientName;
+        Dosage = dosage;
+    }
+
+    public override string ToString()
+    {
+        return $"DoctorID : {DoctorID} Patient : {PatientName} Dosage : {Dosage}\n";
+    }
+}
+
+-------------------------------------------------------------------------
+SQL Query(PrescriptionApplication)
+-------------------------------------------------------------------------
+CREATE TABLE DoctorPrescription(
+	DoctorID INT PRIMARY KEY,
+	PatientName VARCHAR(225),
+	Dosage FLOAT );
+
+INSERT INTO  DoctorPrescription ( DoctorID, PatientName, Dosage ) VALUES
+( 1, 'Mahesh', 22),
+( 2, 'Vijesh', 11),
+( 3, 'Rajesh', 35),
+( 4, 'Rijesh', 23),
+( 5, 'Sujesh', 15);
+
+SELECT  DoctorID, PatientName, Dosage FROM DoctorPrescription;
