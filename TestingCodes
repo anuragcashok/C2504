@@ -1,38 +1,733 @@
+PHTConfig.cs
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
+using ProjectPHT.Pages;
+using ProjectPHT.ViewModels;
 
-namespace BankManagementSystem.Commands
+namespace ProjectPHT
 {
-    public class RelayCommandOne : ICommand
+    public static class PHTConfig
     {
-        private readonly Action _execute;
-        private readonly Func<bool> _canExecute;
+        public static UserViewModel userViewModel {  get; set; }
+        public static LoginViewModel loginViewModel { get; set; }
+        public static SignUpViewModel signUpViewModel { get; set; }
+        public static ProfileSettingsViewModel profileSettingsViewModel { get; set; }
+        public static ContactSupportViewModel contactSupportViewModel { get; set; }
+        public static DailyHealthMetrixEntryViewModel dailyHealthMetrixEntryViewModel { get; set; }
+        public static DeviceSyncViewModel deviceSyncViewModel { get; set; }
+        public static HealthHistoryViewModel healthHistoryViewModel { get; set; }
+        public static HealthInsightViewModel healthInsightViewModel { get; set; }
+        public static GoalsViewModel goalsViewModel { get; set; }
+        public static NotificationViewModel notificationViewModel { get; set; }
+        public static LoginWindow loginWindow { get; set; }
+        public static SignUpWindow signUpWindow { get; set; }
+        public static HomePageWindow homePageWindow { get; set; }
+        public static DailyHealthMetrixEntryWindow dailyHealthMetrixEntryWindow { get; set; }
+        public static DeviceIntegrationWindow deviceIntegrationWindow { get; set; }
+        public static HealthGoalsWindow healthGoalsWindow { get; set; }
+        public static HealthHistoryWindow healthHistoryWindow { get; set; }
+        public static AddGoalWindow frmAddGoal { get; set; }
+        public static EditGoalWindow frmEditGoalWindow { get; set; }
+        public static HealthInsightWindow healthInsightWindow { get; set; }
+        public static ProfileSettingsWindow profileSettingsWindow { get; set; }
+        public static UserDashBoardWindow userDashBoardWindow { get; set; }
+        public static AdminDashboardWindow adminDashboardWindow { get; set; }
+        public static UserManagementWindow userManagementWindow { get; set; }
+        public static SystemPerformanceWindow systemPerformanceWindow { get; set; }
+        public static PlatformAnalysisWindow platformAnalysisWindow { get; set; }
+        public static ContactSettings contactSupportWindow { get; set; }
+        public static CreateUserWindow createUserWindow { get; set; }
+        public static UpdateUserWindow updateUserWindow { get; set; }
 
-        public RelayCommandOne(Action execute, Func<bool> canExecute = null)
+        static PHTConfig()
         {
-            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
-            _canExecute = canExecute;
-        }
-        //
-
-        public event EventHandler CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
-        }
-        //
-        public bool CanExecute(object parameter)
-        {
-            return _canExecute == null || _canExecute();
-        }
-
-        public void Execute(object parameter)
-        {
-            _execute();
+            userViewModel = new UserViewModel();
+            loginViewModel = new LoginViewModel();
+            signUpViewModel = new SignUpViewModel();
+            profileSettingsViewModel = new ProfileSettingsViewModel();
+            contactSupportViewModel = new ContactSupportViewModel();
+            dailyHealthMetrixEntryViewModel = new DailyHealthMetrixEntryViewModel();
+            deviceSyncViewModel = new DeviceSyncViewModel();
+            healthHistoryViewModel = new HealthHistoryViewModel();
+            healthInsightViewModel = new HealthInsightViewModel();
+            goalsViewModel = new GoalsViewModel();
+            notificationViewModel = new NotificationViewModel();
+            loginWindow = new LoginWindow();
+            signUpWindow = new SignUpWindow();
+            homePageWindow = new HomePageWindow();
+            dailyHealthMetrixEntryWindow = new DailyHealthMetrixEntryWindow();
+            deviceIntegrationWindow = new DeviceIntegrationWindow();
+            healthGoalsWindow = new HealthGoalsWindow();
+            frmAddGoal = new AddGoalWindow();
+            frmEditGoalWindow = new EditGoalWindow();
+            healthHistoryWindow = new HealthHistoryWindow();
+            healthInsightWindow = new HealthInsightWindow();
+            profileSettingsWindow = new ProfileSettingsWindow();
+            userDashBoardWindow = new UserDashBoardWindow();
+            adminDashboardWindow = new AdminDashboardWindow();
+            userManagementWindow = new UserManagementWindow();
+            systemPerformanceWindow = new SystemPerformanceWindow();
+            platformAnalysisWindow = new PlatformAnalysisWindow();
+            contactSupportWindow = new ContactSettings();
+            createUserWindow = new CreateUserWindow();
+            updateUserWindow = new UpdateUserWindow();
         }
     }
 }
+
+==============================================================================================
+
+UserViewModel
+
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ProjectPHT.Commands;
+using ProjectPHT.EFRepo;
+using ProjectPHT.Repo;
+using System.Windows.Input;
+using System.Windows;
+using ProjectPHT.Entities;
+using System.Security.Cryptography;
+
+
+namespace ProjectPHT.ViewModels
+{
+    public delegate void DWindoClose();
+
+    public class UserViewModel : ViewModelBase
+    {
+        public DWindoClose WindowClose;
+        public DWindoClose EditWindowClose;
+
+        public IUserRepo _repo = EFUserRepo.Instance;
+
+        private User _newUser;
+
+
+        public User NewUser
+        {
+            get
+            {
+                return _newUser;
+            }
+            set
+            {
+                _newUser = value; OnPropertyChanged(nameof(NewUser));
+            }
+        }
+
+
+        private User _selectedUser;
+
+
+        public User SelectedUser
+        {
+            get
+            {
+                return _selectedUser;
+            }
+            set
+            {
+                _selectedUser = value; OnPropertyChanged(nameof(SelectedUser));
+            }
+        }
+
+
+
+        private User _currentUser;
+
+
+        public User CurrentUser
+        {
+            get
+            {
+                return _currentUser;
+            }
+            set
+            {
+                _currentUser = value; OnPropertyChanged(nameof(CurrentUser));
+            }
+        }
+
+        private ObservableCollection<User> _users;
+
+
+        public ObservableCollection<User> Users
+        {
+            get
+            {
+                return _users;
+            }
+            set
+            {
+                _users = value; OnPropertyChanged(nameof(Users));
+            }
+        }
+
+        public ICommand CreateCommand { get; set; }
+        //public ICommand LoginCommand { get; set; }
+
+        public ICommand UpdateCommand { get; set; }
+
+        public ICommand DeleteCommand { get; set; }
+
+        public UserViewModel()
+        {
+            NewUser = new User
+            {
+                Name = "",
+                Email = "",
+                PasswordHash = "",
+                DateOfBirth = DateTime.Now,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+
+            };
+
+            CurrentUser = new User
+            {
+                Name = "",
+                Email = "",
+                PasswordHash = ""
+            };
+
+            LoadUsers();
+            CreateCommand = new RelayCommand(Create);
+            //LoginCommand = new RelayCommand(Login);
+            UpdateCommand = new RelayCommand(Update);
+            DeleteCommand = new RelayCommand(Delete);
+        }
+
+        public void HashPassword()
+        {
+            string password = NewUser.PasswordHash;
+            using (MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
+            {
+                byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
+                byte[] hashBytes = md5.ComputeHash(passwordBytes);
+
+                // Convert the hash bytes to a hexadecimal string
+                string hashString = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+
+                NewUser.PasswordHash = hashString;
+            }
+        }
+        private void Delete()
+        {
+            if (this.SelectedUser == null)
+            {
+                var result1 = MessageBox.Show(messageBoxText: "Please select the user to Delete",
+                        caption: "Alert",
+                        button: MessageBoxButton.OK,
+                        icon: MessageBoxImage.Information);
+                return;
+            }
+
+            var res = MessageBox.Show(messageBoxText: "Are you sure to Delete this User?",
+                    caption: "Confirm",
+                    button: MessageBoxButton.YesNo,
+                    icon: MessageBoxImage.Question);
+
+            if (res != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
+            _repo.Delete(this.SelectedUser);
+            this.SelectedUser = this.SelectedUser;
+            var result = MessageBox.Show(messageBoxText: $"Alert {SelectedUser.UserID} is Deleted successfully",
+                       caption: "Alert",
+                       button: MessageBoxButton.OK,
+                       icon: MessageBoxImage.Information);
+            LoadUsers();
+        }
+
+        private void Update()
+        {
+
+            if (this.SelectedUser == null)
+            {
+                return;
+            }
+
+            var res = MessageBox.Show(messageBoxText: "Are you sure to Update this User?",
+                    caption: "Confirm",
+                    button: MessageBoxButton.YesNo,
+                    icon: MessageBoxImage.Question);
+
+            if (res != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
+            _repo.Update(this.SelectedUser);
+            this.SelectedUser = this.SelectedUser;
+
+            var result = MessageBox.Show(messageBoxText: $"Alert {SelectedUser.UserID} is updated successfully",
+                        caption: "Alert",
+                        button: MessageBoxButton.OK,
+                        icon: MessageBoxImage.Information);
+            LoadUsers();
+
+            if (EditWindowClose != null)
+            {
+                EditWindowClose();
+            }
+        }
+
+        private void LoadUsers()
+        {
+            Users = _repo.ReadAll();
+        }
+
+        private void Create()
+        {
+            HashPassword();
+            var newUser = new User
+            {
+                Name = NewUser.Name,
+                PasswordHash = NewUser.PasswordHash,
+                Email = NewUser.Email,
+                DateOfBirth = NewUser.DateOfBirth,
+                Gender = NewUser.Gender,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+            };
+            try
+            {
+                var result = MessageBox.Show(messageBoxText: "Are you sure to Create ?",
+                    caption: "Confirm",
+                    button: MessageBoxButton.YesNo,
+                    icon: MessageBoxImage.Question);
+                if (result != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+                _repo.Create(newUser);/////
+
+                result = MessageBox.Show(messageBoxText: "Created Successfully",
+                    caption: "Alert",
+                    button: MessageBoxButton.OK,
+                    icon: MessageBoxImage.Information);
+
+                LoadUsers();
+
+                if (WindowClose != null)
+                {
+                    WindowClose();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}");
+            }
+        }
+
+        /*public bool CanLogin()
+        {
+            return CurrentUser.Name.Length > 0 && CurrentUser.PasswordHash.Length > 0;
+        }
+
+        private void Login()
+        {
+            try
+            {
+                _repo.Login(CurrentUser);
+                MessageBox.Show($"Login SuccessFull");
+
+
+                if (CurrentUser.Username == "admin")
+                {
+
+                    PHTConfig.adminDashboardWindow.Show();
+                }
+                else
+                {
+                    PHTConfig.userDashboardWindow.Show();
+                }
+                if (WindowClose != null)
+                {
+                    WindowClose();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}");
+            }
+        }*/
+
+
+
+
+    }
+}
+
+==============================================================================
+
+LoginViewModel
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ProjectPHT.Commands;
+using ProjectPHT.EFRepo;
+using ProjectPHT.Repo;
+using System.Windows.Input;
+using System.Windows;
+using ProjectPHT.Entities;
+using ProjectPHT.Pages;
+
+namespace ProjectPHT.ViewModels
+{
+    public class LoginViewModel : ViewModelBase
+    {
+        private User _currentUser;
+        public User CurrentUser
+        {
+            get { return _currentUser; }
+            set { _currentUser = value; OnPropertyChanged(nameof(CurrentUser)); }
+
+        }
+        public ICommand LoginCommand { get; set; }
+        public LoginViewModel()
+        {
+            CurrentUser = new User
+            {
+                Email = "",
+                PasswordHash = ""
+            };
+            LoginCommand = new RelayCommand(Login);
+        }
+
+        private IUserRepo _repo = new EFUserRepo();
+        public void Login()
+        {
+            if(_repo.IsValidUser(CurrentUser))
+            {
+                MessageBox.Show(messageBoxText: "Login Successfull");
+                if (CurrentUser.Email == "admin" && CurrentUser.PasswordHash == "123") 
+                {
+                    PHTConfig.adminDashboardWindow.Show();
+                }
+                else
+                {
+                    PHTConfig.userDashBoardWindow.Show();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Login Unsuccessfull");
+            }
+        }
+    }
+}
+
+==========================================================================================
+
+IUserRpo
+
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ProjectPHT.Entities;
+
+namespace ProjectPHT.Repo
+{
+    public interface IUserRepo
+    {
+        //void Authenticate(string UserName, string PasswordHash);
+        bool IsValidUser(User user);
+        void Create(User user);
+        void Update(User user);
+        void Delete(User user);
+        ObservableCollection<User> ReadAll();
+    }
+}
+
+===================================================================================
+
+UserMangementWindow.xaml
+
+<Window x:Class="ProjectPHT.Pages.UserManagementWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectPHT.Pages"
+        mc:Ignorable="d"
+        Title="UserManagementWindow" Height="450" Width="800" Closing="Window_Closing_1">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="59*"/>
+            <ColumnDefinition Width="141*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Margin="10,10,10,10" Grid.ColumnSpan="2">
+            <TextBox x:Name="UserNameTextBox" Width="200" Margin="0,0,10,0" />
+            <Button x:Name="btnAddUser" Content="Add User" Width="100" Click="btnAddUser_Click"/>
+            <Button x:Name="btnEdit" Content="Edit User" Width="100" Click="btnEdit_Click"/>
+            <Button x:Name="btnDelete" Content="Delete User" Width="100" Command="{Binding DeleteCommand}"/>
+        </StackPanel>
+
+        <DataGrid x:Name="UserDataGrid" Grid.Row="1" Margin="10,10,10,10" AutoGenerateColumns="False" ItemsSource="{Binding Users}"
+                  SelectionMode="Single" SelectionUnit="FullRow" SelectedItem="{Binding SelectedUser , Mode=TwoWay}" Grid.ColumnSpan="2"
+                  >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="User ID" Width="*"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding UserName}" Width="*"/>
+                <DataGridTextColumn Header="Email" Binding="{Binding Role}" Width="*"/>
+                <DataGridTextColumn Header="Password" Binding="{Binding PasswordHash}" Width="*"/>
+                <DataGridTextColumn Header="DateOfBirth" Binding="{Binding Role}" Width="*"/>
+                <DataGridTextColumn Header="Gender" Binding="{Binding Role}" Width="*"/>
+                <DataGridTextColumn Header="CreatedAt" Binding="{Binding CreatedAt}" Width="*"/>
+                <DataGridTextColumn Header="UpdatedAt" Binding="{Binding LastLogin}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
+==============================================================================
+
+UserManagementWindow.xaml.cs
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+
+namespace ProjectPHT.Pages
+{
+    /// <summary>
+    /// Interaction logic for UserManagementWindow.xaml
+    /// </summary>
+    public partial class UserManagementWindow : Window
+    {
+        public UserManagementWindow()
+        {
+            InitializeComponent();
+            DataContext = PHTConfig.userViewModel;
+        }
+
+        private void btnAddUser_Click(object sender, RoutedEventArgs e)
+        {
+            PHTConfig.createUserWindow.Show();
+
+        }
+
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            PHTConfig.updateUserWindow.Show();
+        }
+
+        private void Window_Closing_1(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+            this.Hide();
+        }
+    }
+}
+=========================================================================
+
+AdminDashboardWindow.xaml
+
+<Window x:Class="ProjectPHT.Pages.AdminDashboardWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectPHT.Pages"
+        mc:Ignorable="d"
+        Title="AdminDashboardWindow" Height="450" Width="800" Closing="Window_Closing" Background="#FF0D3937" WindowState="Maximized">
+    <Canvas>
+        <TextBlock TextWrapping="Wrap" Text="ADMIN DASHBOARD" Height="60" Width="800" HorizontalAlignment="Left"
+VerticalAlignment="Center" FontSize="36" FontWeight="Bold" Background="White" 
+TextAlignment="Center" Foreground="#FFE51717" FontFamily="Copperplate Gothic Bold"/>
+        <Button x:Name="btnUserManagement"  Content="User&#xD;&#xA;Management" Height="59" Canvas.Left="378" Canvas.Top="111" Width="136" HorizontalAlignment="Left" VerticalAlignment="Center" Click="btnUserManagement_Click" />
+        <Button x:Name="btnPerformanceMonitoring" Content="system&#xD;&#xA;Performance&#xD;&#xA;Monitoring" Height="59" Canvas.Left="378" Canvas.Top="208" Width="136" HorizontalAlignment="Left" VerticalAlignment="Center" />
+        <Button x:Name="btnPlatformAnalysys" Content="Platform&#xD;&#xA;Analysis" Height="59" Canvas.Left="380" Canvas.Top="306" Width="136" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+    </Canvas>
+</Window>
+
+==========================================================================
+
+AdminDashboardWindow.xaml.cs
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+
+namespace ProjectPHT.Pages
+{
+    /// <summary>
+    /// Interaction logic for AdminDashboardWindow.xaml
+    /// </summary>
+    public partial class AdminDashboardWindow : Window
+    {
+        public AdminDashboardWindow()
+        {
+            InitializeComponent();
+        }
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+            this.Hide();
+        }
+
+        private void btnUserManagement_Click(object sender, RoutedEventArgs e)
+        {
+            PHTConfig.userManagementWindow.Show();
+        }
+    }
+}
+=======================================================================
+
+EFUserRepo
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data.Entity;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using ProjectPHT.Entities;
+using ProjectPHT.Repo;
+
+namespace ProjectPHT.EFRepo
+{
+    public class EFUserRepo : IUserRepo
+    {
+        private static EFUserRepo _instance;
+        public ObservableCollection<User> Users { get; set; }
+        public static EFUserRepo Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = new EFUserRepo();
+                return _instance;
+            }
+
+        }
+        //public User CurrentUser { get; set; } = null;
+        private PHT_DbEntities _context;
+        public EFUserRepo()
+        {
+            _context = new PHT_DbEntities();
+        }
+        public void Create(User user)
+        {
+            //throw new NotImplementedException();
+            _context.Users.Add(user);
+            _context.SaveChanges();
+        }
+
+        public string GetPassword(string password)
+        {
+            using (MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
+            {
+                byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
+                byte[] hashBytes = md5.ComputeHash(passwordBytes);
+
+                // Convert the hash bytes to a hexadecimal string
+                string inputHash = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+                return inputHash;
+            }
+
+
+        }
+        /*public void Login(User user)
+        {
+            var HashedPassword = GetPassword(user.PasswordHash);
+            var User = _context.Users.FirstOrDefault(u => u.Email == user.Email && u.PasswordHash == HashedPassword);
+            if (User == null)
+            {
+                throw new Exception("Invalid username or password");
+            }
+            else
+            {
+                CurrentUser = User;
+            }
+
+        }*/
+        public bool IsValidUser(User user)
+        {
+            //var HashedPassword = GetPassword(user.PasswordHash);
+            var User = _context.Users.FirstOrDefault(u => u.Email == user.Email && u.PasswordHash == user.PasswordHash);
+            if (User == null)
+            {
+                MessageBox.Show("Invalid email or password");
+                return false;
+            }
+            else
+            {
+                //CurrentUser = User;
+                return true;
+            }
+
+            //return user != null;
+        }
+        public void Delete(User userModel)
+        {
+            var userToDelete = _context.Users.Find(userModel.UserID);
+            if (userToDelete != null)
+            {
+                _context.Users.Remove(userToDelete);
+                _context.SaveChanges();
+            }
+        }
+        public void Update(User userModel)
+        {
+            var existingUser = _context.Users.Find(userModel.UserID);
+            if (existingUser != null)
+            {
+                _context.Entry(existingUser).CurrentValues.SetValues(userModel);
+                // existingUser.Username = userModel.Username;
+                _context.SaveChanges();
+            }
+        }
+        public ObservableCollection<User> ReadAll()
+        {
+            return new ObservableCollection<User>(_context.Users.ToList());
+        }
+    }
+}
+
