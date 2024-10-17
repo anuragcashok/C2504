@@ -469,7 +469,8 @@ UserMangementWindow.xaml
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectPHT.Pages"
         mc:Ignorable="d"
-        Title="UserManagementWindow" Height="450" Width="800" Closing="Window_Closing_1">
+        WindowState="Maximized"
+        Title="UserManagementWindow" Height="450" Width="800" Closing="Window_Closing_1" Background="#FF0D3937">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="59*"/>
@@ -503,6 +504,7 @@ UserMangementWindow.xaml
         </DataGrid>
     </Grid>
 </Window>
+
 
 ==============================================================================
 
@@ -743,8 +745,12 @@ HomePageWindow.xaml
         xmlns:local="clr-namespace:ProjectPHT.Pages"
         mc:Ignorable="d"
         WindowState="Maximized"
-        Title="HomePageWindow" Height="450" Width="800" Background="#FF0D3937">
+        Title="HomePageWindow" Height="450" Width="800" Background="#FF0D3937" Closed="Window_Closed_1">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="359*"/>
+            <ColumnDefinition Width="41*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -753,9 +759,9 @@ HomePageWindow.xaml
         <TextBlock Text="HOME PAGE" FontSize="36" FontWeight="Bold" TextAlignment="Center" 
                    Foreground="#FFE51717" Background="White"
                    FontFamily="Copperplate Gothic Bold" 
-                   Grid.Row="0" Margin="0" Height="60"/>
+                   Grid.Row="0" Height="60" Grid.ColumnSpan="2"/>
 
-        <StackPanel Orientation="Vertical" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel Orientation="Vertical" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="290,0,0,0">
             <Button x:Name="btnLogin" Content="Login" Width="200" Margin="10" FontSize="20" FontWeight="Bold" Height="60" Click="btnLogin_Click"/>
             <Button x:Name="btnSignUp" Content="Sign Up" Width="200" Margin="10" FontWeight="Bold" FontSize="20" Height="60" Click="btnSignUp_Click"/>
             <Button x:Name="btnContactSupport" Content="Learn More...." Width="200" Margin="10" FontSize="20" FontWeight="Bold" Height="60" Click="btnContactSupport_Click"/>
@@ -837,24 +843,82 @@ UpdateUserWindow.xaml
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectPHT.Pages"
         mc:Ignorable="d"
-        Title="UpdateUserWindow" Height="550" Width="800" Closing="Window_Closing" Background="#FF0D3937">
-    <Canvas>
-        <TextBlock TextWrapping="Wrap" Text="UPDATE USER" Height="60" Width="800" HorizontalAlignment="Left"
-VerticalAlignment="Center" FontSize="36" FontWeight="Bold" Background="White" 
-TextAlignment="Center" Foreground="#FFE51717" FontFamily="Copperplate Gothic Bold"/>
-        <TextBlock Canvas.Left="300" TextWrapping="Wrap" Text="Name" Canvas.Top="90" Height="36" Width="135" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FFF9F6F6"/>
-        <TextBlock Canvas.Left="300" TextWrapping="Wrap" Text="Email" Canvas.Top="155" Height="36" Width="135" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FFF4EEEE"/>
-        <TextBox Canvas.Left="528" TextWrapping="Wrap" Canvas.Top="90" Width="245" Height="36" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#FFFCFCFC" Text="{Binding SelectedUser.Name}"/>
-        <TextBox Canvas.Left="528" TextWrapping="Wrap" Canvas.Top="151" Width="245" Height="36" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding SelectedUser.Email}"/>
-        <Button Content="Update" Canvas.Left="528" Canvas.Top="465" HorizontalAlignment="Center" VerticalAlignment="Top" Width="245" Height="34" FontSize="20" Command="{Binding UpdateCommand}"/>
-        <TextBlock Canvas.Left="300" TextWrapping="Wrap" Text="Password" Canvas.Top="336" Height="36" Width="135" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FFFCFBFB"/>
-        <TextBox Canvas.Left="528" TextWrapping="Wrap" Canvas.Top="332" Width="245" Height="36" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding SelectedUser.PasswordHash}"/>
-        <TextBlock Canvas.Left="300" TextWrapping="Wrap" Text="Gender" Canvas.Top="212" Height="36" Width="135" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FFFDF9F9"/>
-        <TextBlock Canvas.Left="300" TextWrapping="Wrap" Text="DOB" Canvas.Top="275" Height="36" Width="135" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FFF6F3F3"/>
-        <TextBox Canvas.Left="528" TextWrapping="Wrap" Canvas.Top="212" Width="245" Height="36" Background="#FFFCFCFC" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding SelectedUser.Gender}"/>
-        <TextBox Canvas.Left="528" TextWrapping="Wrap" Canvas.Top="271" Width="245" Height="36" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding SelectedUser.DateOfBirth}"/>
+        WindowState="Maximized"
+        Title="UpdateUser Window" Height="550" Width="800" Closing="Window_Closing" Background="#FF0D3937">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-    </Canvas>
+        <TextBlock Text="UPDATE USER" 
+                   FontSize="36" FontWeight="Bold" TextAlignment="Center" 
+                   Foreground="#FFE51717" Background="White"
+                   FontFamily="Copperplate Gothic Bold" 
+                   Grid.Row="0" Margin="0" Height="60"/>
+
+        <TextBlock Text="Name" FontSize="20" 
+                   HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   Foreground="#FFF9F6F6" Margin="200,10,0,0" 
+                   Grid.Row="1"/>
+
+        <TextBox Width="245" Height="36" 
+                  HorizontalAlignment="Left" VerticalAlignment="Top" 
+                  Background="#FFFCFCFC" 
+                  Text="{Binding SelectedUser .Name}" 
+                  Margin="400,10,0,0" Grid.Row="1"/>
+
+        <TextBlock Text="Email" FontSize="20" 
+                   HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   Foreground="#FFF4EEEE" Margin="200,10,0,0" 
+                   Grid.Row="2"/>
+
+        <TextBox Width="245" Height="36" 
+                  HorizontalAlignment="Left" VerticalAlignment="Top" 
+                  Text="{Binding SelectedUser .Email}" 
+                  Margin="400,10,0,0" Grid.Row="2"/>
+
+        <TextBlock Text="Password" FontSize="20" 
+                   HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   Foreground="#FFFCFBFB" Margin="200,10,0,0" 
+                   Grid.Row="3"/>
+
+        <TextBox Width="245" Height="36" 
+                  HorizontalAlignment="Left" VerticalAlignment="Top" 
+                  Text="{Binding SelectedUser .PasswordHash}" 
+                  Margin="400,10,0,0" Grid.Row="3"/>
+
+        <TextBlock Text="Gender" FontSize="20" 
+                   HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   Foreground="#FFFDF9F9" Margin="200,10,0,0" 
+                   Grid.Row="4"/>
+
+        <TextBox Width="245" Height="36" 
+                  HorizontalAlignment="Left" VerticalAlignment="Top" 
+                  Text="{Binding SelectedUser .Gender}" 
+                  Margin="400,10,0,0" Grid.Row="4"/>
+
+        <TextBlock Text="DOB" FontSize="20" 
+                   HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   Foreground="#FFF6F3F3" Margin="200,10,0,0" 
+                   Grid.Row="5"/>
+
+        <TextBox Width="245" Height="36" 
+                  HorizontalAlignment="Left" VerticalAlignment="Top" 
+                  Text="{Binding SelectedUser .DateOfBirth}" 
+                  Margin="400,10,0,0" Grid.Row="5"/>
+
+        <Button Content="Update" Width="245" Height="34" 
+                FontSize="20" Command="{Binding UpdateCommand}" 
+                HorizontalAlignment="Center" VerticalAlignment="Top" 
+                Margin="0,20,0,0" Grid.Row="6"/>
+    </Grid>
 </Window>
 ===================================================================================
 
@@ -894,6 +958,284 @@ namespace ProjectPHT.Pages
     }
 }
 
-
+==============================================================================================
 https://meet.google.com/ucn-sxsy-zvc?hs=224
+==============================================================================================
+LoginPageWindow.xaml
 
+<Window x:Class="ProjectPHT.Pages.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectPHT.Pages"
+        mc:Ignorable="d"
+        WindowState="Maximized"
+        Title="LoginWindow" Height="450" Width="800" Closing="Window_Closing" Background="#FF0D3937">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="677*"/>
+            <ColumnDefinition Width="123*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="LOGIN PAGE" 
+                   FontSize="36" FontWeight="Bold" TextAlignment="Center" 
+                   Foreground="#FFE51717" Background="White"
+                   FontFamily="Copperplate Gothic Bold" 
+                   Grid.Row="0" Height="60" Grid.ColumnSpan="2"/>
+
+        <TextBlock Text="Email" FontSize="20" 
+                   HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   Foreground="#FFF7F3F3" Margin="200,15,0,0" 
+                   Grid.Row="1"/>
+
+        <TextBox Width="245" Height="36" 
+                  HorizontalAlignment="Left" VerticalAlignment="Top" 
+                  Background="#FFFCFCFC" 
+                  Text="{Binding CurrentUser .Email}" 
+                  Margin="400,10,0,0" Grid.Row="1"/>
+
+        <TextBlock Text="Password" FontSize="20" 
+                   HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   Foreground="#FFF9F6F6" Margin="200,15,0,0" 
+                   Grid.Row="2"/>
+
+        <TextBox Width="245" Height="36" 
+                  HorizontalAlignment="Left" VerticalAlignment="Top" 
+                  Text="{Binding CurrentUser .PasswordHash}" 
+                  Margin="400,10,0,0" Grid.Row="2"/>
+
+        <Button Content="Login" Width="244" Height="34" 
+                FontSize="20" Command="{Binding LoginCommand}" 
+                HorizontalAlignment="Center" VerticalAlignment="Top" 
+                Margin="0,20,0,0" Grid.Row="3"/>
+    </Grid>
+</Window>
+
+=============================================================================
+
+SignUpPageWindow.xaml
+
+<Window x:Class="ProjectPHT.Pages.SignUpWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectPHT.Pages"
+        mc:Ignorable="d"
+        WindowState="Maximized"
+        Title="SignUpWindow" Height="550" Width="800" Closing="Window_Closing" Background="#FF0D3937">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="SIGNUP PAGE" 
+                   FontSize="36" FontWeight="Bold" TextAlignment="Center" 
+                   Foreground="#FFE51717" Background="White"
+                   FontFamily="Copperplate Gothic Bold" 
+                   Grid.Row="0" Margin="0" Height="60"/>
+
+        <TextBlock Text="Name" FontSize="20" 
+                   HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   Foreground="#FFF9F6F6" Margin="200,10,0,0" 
+                   Grid.Row="1"/>
+
+        <TextBox Width="245" Height="36" 
+                  HorizontalAlignment="Left" VerticalAlignment="Top" 
+                  Background="#FFFCFCFC" 
+                  Text="{Binding CreateUser .Name}" 
+                  Margin="400,10,0,0" Grid.Row="1"/>
+
+        <TextBlock Text="Email" FontSize="20" 
+                   HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   Foreground="#FFF4EEEE" Margin="200,10,0,0" 
+                   Grid.Row="2"/>
+
+        <TextBox Width="245" Height="36" 
+                  HorizontalAlignment="Left" VerticalAlignment="Top" 
+                  Text="{Binding CreateUser .Email}" 
+                  Margin="400,10,0,0" Grid.Row="2"/>
+
+        <TextBlock Text="Password" FontSize="20" 
+                   HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   Foreground="#FFFCFBFB" Margin="200,10,0,0" 
+                   Grid.Row="3"/>
+
+        <TextBox Width="245" Height="36" 
+                  HorizontalAlignment="Left" VerticalAlignment="Top" 
+                  Text="{Binding CreateUser .PasswordHash}" 
+                  Margin="400,10,0,0" Grid.Row="3"/>
+
+        <TextBlock Text="Gender" FontSize="20" 
+                   HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   Foreground="#FFFDF9F9" Margin="200,10,0,0" 
+                   Grid.Row="4"/>
+
+        <TextBox Width="245" Height="36" 
+                  HorizontalAlignment="Left" VerticalAlignment="Top" 
+                  Text="{Binding CreateUser .Gender}" 
+                  Margin="400,10,0,0" Grid.Row="4"/>
+
+        <TextBlock Text="DOB" FontSize="20" 
+                   HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   Foreground="#FFF6F3F3" Margin="200,10,0,0" 
+                   Grid.Row="5"/>
+
+        <TextBox Width="245" Height="36" 
+                  HorizontalAlignment="Left" VerticalAlignment="Top" 
+                  Text="{Binding CreateUser .DateOfBirth}" 
+                  Margin="400,10,0,0" Grid.Row="5"/>
+
+        <Button Content="Sign Up" Width="245" Height="34" 
+                FontSize="20" Command="{Binding CreateCommand}" 
+                HorizontalAlignment="Center" VerticalAlignment="Top" 
+                Margin="0,20,0,0" Grid.Row="6"/>
+    </Grid>
+</Window>
+===============================================================================
+UserDashboardWindow
+<Window x:Class="ProjectPHT.Pages.UserDashBoardWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectPHT.Pages"
+        mc:Ignorable="d"
+        WindowState="Maximized"
+        Title="User DashBoardWindow" Height="450" Width="800" Closing="Window_Closing" Background="#FF0D3937">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="USER DASHBOARD" 
+                   FontSize="36" FontWeight="Bold" TextAlignment="Center" 
+Foreground="#FFE51717" Background="White"
+FontFamily="Copperplate Gothic Bold" 
+Grid.Row="0" Margin="0" Height="60"/>
+
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button x:Name="btnMetrixEntry" Content="Daily&#xA;Health Metrix&#xA;Entry" 
+                    Height="59" Width="136" 
+                    Click="btnMetrixEntry_Click" Margin="10"/>
+            <Button x:Name="btnHealthInsight" Content="Health&#xD;&#xA;Insight" 
+                    Height="59" Width="136" 
+                    Click="btnHealthInsight_Click" Margin="10"/>
+            <Button x:Name="btnHealthHistory" Content="Health&#xD;&#xA;History" 
+                    Height="59" Width="136" 
+                    Click="btnHealthHistory_Click" Margin="10"/>
+            <Button x:Name="btnHealthGoals" Content="Health&#xD;&#xA;Goals" 
+                    Height="59" Width="136" 
+                    Click="btnHealthGoals_Click" Margin="10"/>
+            <Button x:Name="btnDeviceIntegration" Content="Device &#xD;&#xA;Integration" 
+                    Height="59" Width="136" 
+                    Click="btnDeviceIntegration_Click" Margin="10"/>
+            <Button x:Name="btnSettings" Content="Settings" 
+                    Height="59" Width="136" 
+                    Click="Button_Click" Margin="10"/>
+        </StackPanel>
+    </Grid>
+</Window>
+
+===========================================================================================
+
+CreateUserWindow
+
+<Window x:Class="ProjectPHT.Pages.CreateUserWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectPHT.Pages"
+        mc:Ignorable="d"
+        Title="CreateUser Window" Height="550" Width="800" Closing="Window_Closing" Background="#FF0D3937" WindowState="Maximized">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="CREATE USER" FontSize="36" FontWeight="Bold" TextAlignment="Center" 
+                   Foreground="#FFE51717" Background="White"
+                   FontFamily="Copperplate Gothic Bold" 
+                   Grid.Row="0" Margin="0" Height="60"/>
+
+        <TextBlock Text="Name" FontSize="20" 
+                   HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   Foreground="#FFF9F6F6" Margin="200,10,0,0" 
+                   Grid.Row="1"/>
+
+        <TextBox Width="245" Height="36" 
+                  HorizontalAlignment="Left" VerticalAlignment="Top" 
+                  Background="#FFFCFCFC" 
+                  Text="{Binding NewUser .Name}" 
+                  Margin="400,10,0,0" Grid.Row="1"/>
+
+        <TextBlock Text="Email" FontSize="20" 
+                   HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   Foreground="#FFF4EEEE" Margin="200,10,0,0" 
+                   Grid.Row="2"/>
+
+        <TextBox Width="245" Height="36" 
+                  HorizontalAlignment="Left" VerticalAlignment="Top" 
+                  Text="{Binding NewUser .Email}" 
+                  Margin="400,10,0,0" Grid.Row="2"/>
+
+        <TextBlock Text="Password" FontSize="20" 
+                   HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   Foreground="#FFFCFBFB" Margin="200,10,0,0" 
+                   Grid.Row="3"/>
+
+        <TextBox Width="245" Height="36" 
+                  HorizontalAlignment="Left" VerticalAlignment="Top" 
+                  Text="{Binding NewUser .PasswordHash}" 
+                  Margin="400,10,0,0" Grid.Row="3"/>
+
+        <TextBlock Text="Gender" FontSize="20" 
+                   HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   Foreground="#FFFDF9F9" Margin="200,10,0,0" 
+                   Grid.Row="4"/>
+
+        <TextBox Width="245" Height="36" 
+                  HorizontalAlignment="Left" VerticalAlignment="Top" 
+                  Text="{Binding NewUser .Gender}" 
+                  Margin="400,10,0,0" Grid.Row="4"/>
+
+        <TextBlock Text="DOB" FontSize="20" 
+                   HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   Foreground="#FFF6F3F3" Margin="200,10,0,0" 
+                   Grid.Row="5"/>
+
+        <TextBox Width="245" Height="36" 
+                  HorizontalAlignment="Left" VerticalAlignment="Top" 
+                  Text="{Binding NewUser .DateOfBirth}" 
+                  Margin="400,10,0,0" Grid.Row="5"/>
+
+        <Button Content="Create" Width="245" Height="34" 
+                FontSize="20" Command="{Binding CreateCommand}" 
+                HorizontalAlignment="Center" VerticalAlignment="Top" 
+                Margin="0,20,0,0" Grid.Row="6"/>
+    </Grid>
+</Window>
